@@ -1,4 +1,5 @@
-CXX = g++
+COMP = g
+CXX = ++
 
 # Warnings frequently signal eventual errors:
 CXXFLAGS=`sdl-config --cflags` -g -W -Wall -Weffc++ -Wextra -pedantic -O0
@@ -17,10 +18,10 @@ EXEC = run
 
 %.o: %.cpp
 	reset 
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(COMP)$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(EXEC): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+	$(COMP)$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 main.o: main.cpp
 

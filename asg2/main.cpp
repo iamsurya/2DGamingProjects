@@ -204,7 +204,7 @@ Manager* Manager::instance = NULL;
 int main()
 {
 	Manager * engine = Manager::getInstance();
-	std::cout<<engine->getRandom(100,5)<<std::endl;
+	engine->getRandom(100, 5);
 	delete Manager::getInstance();
 	
 }
