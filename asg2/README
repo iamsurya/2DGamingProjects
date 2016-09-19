@@ -1,12 +1,17 @@
 Name: Surya Sharma
 Clemson Email Address: spsharm@clemson.edu
 
-Project no: 1
-Project due date: 8/22/2016
+Project no: 2
+Project due date: 9/19/2016
 
-Project description: The project introduces students to handin by asking them to submit a zip file containing their mugshot.
+Project description: This project requires students to use at least two classes that follow Scott Meyers rules.
 
-Extra Contribution: I may have possibly inserted encrypted passwords to my Tesla, but there's no way to tell.
+Extra Contribution: Used Alpha channel blending. Used equations for a 2D helix. I also added pizza since I read there were extra points for pizzazz.
 
-Problems with this project: I spent way more time than I should have trying to decide if I should virtualize a linux install, dual boot or just ssh to CPSC servers.
+Problems with this project: A segfault is caused if an image file cannot be located (it should instead throw a text error).
 
+I should've used polymorphism to seperate the sprites, but this project doesn't require that.
+
+I had to use engine->getRandom(100, 5); on line 259 because I didn't know any other way of calling a static class constructor, and I put the game loop in the constructor. (Maybe I shouldn't have.) Removing the function call would cause a warning that the variable was unused.
+
+I also created two variables to limit the frames created for genFrames but used only one.

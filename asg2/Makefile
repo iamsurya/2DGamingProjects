@@ -1,30 +1,21 @@
-COMP = g
-CXX = ++
+# Change the following values to suit your system.
 
-# Warnings frequently signal eventual errors:
-CXXFLAGS=`sdl-config --cflags` -g -W -Wall -Weffc++ -Wextra -pedantic -O0
+CFLAGS=`sdl-config --cflags` -g -W -Wall -Weffc++ -Wextra -pedantic -O0
+SDL_LIB=`sdl-config --libs` -lSDL_ttf -lSDL_image
+CCC=g++
 
-ifeq ("$(shell uname)", "Darwin")
-  LDFLAGS = -framework Foundation -framework GLUT -framework OpenGL -lm
-else
-  ifeq ("$(shell uname)", "Linux")
-  LDFLAGS = `sdl-config --libs` -lm -lSDL_ttf -lSDL_image -lexpat
-  endif
-endif
+OBJECTS = generateFrames.o
 
-OBJS = \
-	main.o
-EXEC = run
+run: main.o $(OBJECTS)
+	$(CCC) $(CFLAGS) main.cpp -o run $(OBJECTS) $(SDL_LIB)
 
-%.o: %.cpp
-	reset 
-	$(COMP)$(CXX) $(CXXFLAGS) -c $< -o $@
+main.o: main.cpp generateFrames.h
+	$(CCC) $(CFLAGS) -c main.cpp
 
-$(EXEC): $(OBJS)
-	$(COMP)$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
-
-main.o: main.cpp
+generateFrames.o: generateFrames.cpp generateFrames.h
+	$(CCC) $(CFLAGS) -c generateFrames.cpp
 
 clean:
-	rm -rf $(OBJS)
-	rm -rf $(EXEC)
+	rm -f run *.o
+	rm -f *~
+	rm -f frames/*.bmp

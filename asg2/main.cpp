@@ -7,8 +7,11 @@
 #include "SDL_image.h"
 #include <iostream>
 #include <string>
-#include "generateFrames.h" // Used to creates frames for animation
 #include <cstdlib>
+#include "generateFrames.h" // Used to creates frames for animation
+#include <math.h>
+
+bool makeVideo = false;
 
 const unsigned int gameWidth = 854u; // Defined here so that it can be changed easily.
 const unsigned int gameHeight = 480u;
@@ -25,9 +28,7 @@ const unsigned int DT = 17u; // 60 frames per second. 1000 ticks / 60 frames = 1
 class Sprite
 {
 public:
-	Sprite();
-
-	Sprite(const char * filename) : image(NULL), x(0), y(0), alpha(0.0) {
+	Sprite(const char * filename) : image(NULL), x(0.0), y(0.0), t(0.0), alpha(0.0) {
 		SDL_Surface *temp = IMG_Load(filename);
 		if (temp == NULL) {
 			throw std::string("Unable to load bitmap.") + SDL_GetError();
@@ -67,15 +68,58 @@ public:
 		static unsigned int remainder = 0u;
 		static unsigned int currentTicks = 0u;
 		static unsigned int prevTicks = SDL_GetTicks();
+		static unsigned int entryComplete = 0;
+		static bool direction = true;
+		static bool whichimage = false;
 		currentTicks = SDL_GetTicks();
 
 		unsigned int elapsedTicks = currentTicks - prevTicks + remainder; // Calculates ticks since last update
 
-		if (elapsedTicks < DT) return false; // Do not update if we're less than 17 ticks from last update
+		if(elapsedTicks < DT) return false; // Do not update if we're less than 17 ticks from last update
 
-		float incr = 300 * DT * 0.001;
+		float incr = 200 * DT * 0.001;
 
-		if( y > 400) y -= incr;
+		if ((y > 300) && (entryComplete == 0)) {
+			if (alpha < 255) { SDL_SetAlpha(image, SDL_SRCALPHA, alpha += 3); y -= incr; }
+		}
+		else if ( (t < 3.27475) && (entryComplete <= 1)) {
+			
+			entryComplete = 1;
+			
+			if (direction == true)	x = (427 - ((image->w) / 2)) + 300 * sin(1 * t);
+			else x = (427 - ((image->w)/2)) - 300 * sin(1 * t);
+
+			y = 300 + 300 * sin(2 * t);
+			t = 0.03 + 0.991*t;
+			
+			if ((t > 3.15) && (alpha > 0))	SDL_SetAlpha(image, SDL_SRCALPHA, alpha -= 3);
+
+		}
+		else if (entryComplete == 2) {
+			SDL_FreeSurface(image);
+			SDL_Surface *temp;
+
+			if (whichimage == false)	temp = IMG_Load("images/pizzaz.png");
+			else temp = IMG_Load("images/player.png");
+
+			whichimage = !whichimage;
+			direction = !direction;
+
+			if (temp == NULL) {
+				throw std::string("Unable to load bitmap.") + SDL_GetError();
+			}
+			Uint32 colorkey = SDL_MapRGB(temp->format, 0, 0, 0);
+			SDL_SetColorKey(temp, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
+
+			image = SDL_DisplayFormat(temp);
+			SDL_FreeSurface(temp);
+
+			x = y = alpha = t = 0.0; // This should go in the init list
+			setXY((854 / 2) - (image->w) / 2, 520);
+			entryComplete = 0;
+		}
+		else if ((t >= 3.27475) && (entryComplete <= 1)) entryComplete = 2;
+		
 
 		prevTicks = currentTicks;
 		remainder = elapsedTicks - DT;
@@ -85,14 +129,18 @@ public:
 	}
 
 	void setXY(float x, float y) { this->x = x; this->y = y; }
+
+	float getX() { return x; }
+	float getY() { return y; }
+
 private:
-	
 	// explicitly disallow constructors that you don't want compiler to silently write
+	Sprite();
 	Sprite(const Sprite &);
 	Sprite & operator=(const Sprite& rhs);
 
 	SDL_Surface *image;
-	float x, y, alpha;
+	float x, y, t, alpha;
 };
 
 
@@ -127,8 +175,11 @@ public:
 		SDL_BlitSurface(screen, NULL, screen, &dest);
 
 		SDL_Event event;
+		GenerateFrames genFrames(screen);
 
 		bool done = false;
+		unsigned int framecount = 0;
+
 		while (!done) {
 			while (!done && SDL_PollEvent(&event)) {
 				if (event.type == SDL_QUIT) done = true;
@@ -137,8 +188,9 @@ public:
 				}
 			}
 
-
 			B.update();
+			if( (framecount++ < 968) && makeVideo) genFrames.makeFrame();
+					
 			Background.drawto(screen);
 			B.drawto(screen);
 			SDL_Flip(screen);
@@ -163,7 +215,7 @@ private:
 	** 2) Init SDL
 	** 3) Execute Game Loop
 	**   a) Draw Background (sky)
-	**	 b) Draw Ship at Random location
+	**	 b) Draw Ship at Random location (Old Idea)
 	**	 c) Flip Screen
 	*/
 	Manager() : screen (NULL), TotalFrames (0)
@@ -209,7 +261,7 @@ int main()
 	
 }
 
-/*
+/* BASE CHARACTERISTICS FOR SDL
 == 26591 == HEAP SUMMARY :
 == 26591 == in use at exit : 57, 630 bytes in 869 blocks
 == 26591 == total heap usage : 2, 414 allocs, 1, 545 frees, 1, 449, 339 bytes allocated
@@ -226,3 +278,4 @@ int main()
 == 26591 == Use --track - origins = yes to see where uninitialised values come from
 == 26591 == ERROR SUMMARY : 2 errors from 1 contexts(suppressed : 0 from 0)
 */
+
