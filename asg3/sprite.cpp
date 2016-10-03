@@ -81,14 +81,12 @@ Sprite & Sprite::operator=(const Sprite &rhs)
   
   const Frame * oldframe = frame;
 
+  Drawable::operator=(rhs);
   frame = rhs.frame;
-
   frameWidth = rhs.frameWidth;
   frameHeight = rhs.frameHeight;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
-
-  Drawable::operator=(rhs);
 
   delete [] oldframe;
 

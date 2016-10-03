@@ -20,6 +20,9 @@ Manager::Manager() :
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
   world("back", Gamedata::getInstance().getXmlInt("back/factor") ),
+  blueb("blueb", Gamedata::getInstance().getXmlInt("blueb/factor") ),
+  redb("redb", Gamedata::getInstance().getXmlInt("redb/factor") ),
+  overlay("overlay", Gamedata::getInstance().getXmlInt("overlay/factor")),
   viewport( Viewport::getInstance() ),
   sprites(),
   currentSprite(0),
@@ -38,20 +41,24 @@ Manager::Manager() :
   sprites.push_back( new MultiSprite("spinstar") );
   sprites.push_back( new Sprite("star") );
   sprites.push_back( new Sprite("greenorb") );
+  //sprites.push_back( new Sprite("viewport"));
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
 void Manager::draw() const {
   world.draw();
+  blueb.draw();
+  redb.draw();
+  overlay.draw(1);
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
-
-  io.printMessageValueAt("Seconds: ", clock->getSeconds(), 10, 20);
-  io.printMessageAt("Press T to switch sprites", 10, 45);
+  clock.display();
+  //io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
+  //io.printMessageAt("Press T to switch sprites", 10, 45);
   io.printMessageAt(title, 10, 450);
   viewport.draw();
-
+  
   SDL_Flip(screen);
 }
 
@@ -71,12 +78,12 @@ void Manager::switchSprite() {
 }
 
 void Manager::update() {
-  ++(*clock);
-  Uint32 ticks = clock->getElapsedTicks();
+  ++(clock);
+  Uint32 ticks = clock.getElapsedTicks();
 
-  static unsigned int lastSeconds = clock->getSeconds();
-  if ( clock->getSeconds() - lastSeconds == 5 ) {
-    lastSeconds = clock->getSeconds();
+  static unsigned int lastSeconds = clock.getSeconds();
+  if ( clock.getSeconds() - lastSeconds == 5 ) {
+    lastSeconds = clock.getSeconds();
     //switchSprite();
   }
 
@@ -87,6 +94,9 @@ void Manager::update() {
     makeFrame();
   }
   world.update();
+  blueb.update();
+  redb.update();
+  overlay.update();
   viewport.update(); // always update viewport last
 }
 
@@ -107,11 +117,11 @@ void Manager::play() {
           switchSprite();
         }
         if ( keystate[SDLK_s] ) {
-          clock->toggleSloMo();
+          clock.toggleSloMo();
         }
         if ( keystate[SDLK_p] ) {
-          if ( clock->isPaused() ) clock->unpause();
-          else clock->pause();
+          if ( clock.isPaused() ) clock.unpause();
+          else clock.pause();
         }
         if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;

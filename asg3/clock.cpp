@@ -6,12 +6,9 @@
 #include "gamedata.h"
 #include "ioManager.h"
 
-Clock* Clock::getInstance() {
-  if ( SDL_WasInit(SDL_INIT_VIDEO) == 0) {
-    throw std::string("Must init SDL before Clock");
-  }
-  if ( instance == NULL) instance = new Clock; 
-  return instance;
+Clock& Clock::getInstance() {
+  static Clock clock; 
+  return clock;
 }
 
 Clock::Clock() :
@@ -77,6 +74,7 @@ unsigned int Clock::getTicks() const {
   else return SDL_GetTicks() - timeAtStart; 
 }
 
+/* Get ticks since last call */
 unsigned int Clock::getElapsedTicks() { 
   if (paused) return 0;
   else if ( sloMo ) return 1;
@@ -97,6 +95,8 @@ unsigned int Clock::capFrameRate() const {
   return delay;
 }
 
+
+/* Increments frame if Clock is not paused */
 Clock& Clock::operator++() { 
   if ( !paused ) {
     ++frames; 
@@ -104,12 +104,14 @@ Clock& Clock::operator++() {
   return *this;
 }
 
+/* Starts the clock */
 void Clock::start() { 
   started = true; 
   paused = false; 
   frames = 0;
   timeAtPause = timeAtStart = SDL_GetTicks(); 
 }
+
 void Clock::pause() {
   if( started && !paused ) {
     timeAtPause = SDL_GetTicks() - timeAtStart;

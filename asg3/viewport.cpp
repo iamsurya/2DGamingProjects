@@ -10,8 +10,9 @@ Viewport& Viewport::getInstance() {
 Viewport::Viewport() : 
   gdata(Gamedata::getInstance()),
   position(0, 0),
-  viewWidth(gdata.getXmlInt("view/width")), 
-  viewHeight(gdata.getXmlInt("view/height")),
+  startX(gdata.getXmlInt("playarea/startx")), 
+  viewWidth(gdata.getXmlInt("playarea/width")), 
+  viewHeight(gdata.getXmlInt("playarea/height")),
   worldWidth(gdata.getXmlInt("world/width")),
   worldHeight(gdata.getXmlInt("world/height")),
   objWidth(0), objHeight(0),
@@ -32,7 +33,7 @@ void Viewport::draw() const {
 void Viewport::update() {
   const float x = objectToTrack->X();
   const float y = objectToTrack->Y();
-  position[0] = (x + objWidth/2) - viewWidth/2;
+  position[0] = (x + objWidth/2) - viewWidth/2 - startX;
   position[1] = (y + objHeight/2) - viewHeight/2;
   if (position[0] < 0) position[0] = 0;
   if (position[1] < 0) position[1] = 0;

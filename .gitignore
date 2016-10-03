@@ -77,3 +77,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.d
+asg3/run
+*.3925

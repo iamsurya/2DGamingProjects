@@ -15,10 +15,14 @@ public:
 private:
   const bool env;
   const IOManager& io;
-  Clock* clock;
+  Clock& clock;
 
   SDL_Surface * const screen;
   World world;
+  World blueb;
+  World redb;
+  World overlay;
+  
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
