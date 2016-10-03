@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <deque>
 #include "clock.h"
 #include "gamedata.h"
 #include "ioManager.h"
@@ -21,10 +22,13 @@ Clock::Clock() :
   tickSum(0),
   sumOfAllTicks(0),
   timeAtStart(0), timeAtPause(0),
-  currTicks(0), prevTicks(0), ticks(0) 
+  currTicks(0), prevTicks(0), ticks(0), preTicks(0),
+  fpsAveragedOver(Gamedata::getInstance().getXmlInt("fpsAveragedOver")),
+  fps(0),
+  deck_TicksPerFrame(200,0)  
   {
   start();
-}
+  }
 
 Clock::Clock(const Clock& c) :
   started(c.started), 
@@ -36,13 +40,17 @@ Clock::Clock(const Clock& c) :
   tickSum(c.tickSum),
   sumOfAllTicks(c.sumOfAllTicks),
   timeAtStart(c.timeAtStart), timeAtPause(c.timeAtPause),
-  currTicks(c.currTicks), prevTicks(c.prevTicks), ticks(c.ticks) 
+  currTicks(c.currTicks), prevTicks(c.prevTicks), ticks(c.ticks),
+  preTicks(c.preTicks),
+  fpsAveragedOver(c.fpsAveragedOver),
+  fps(c.fps),
+  deck_TicksPerFrame(c.deck_TicksPerFrame) 
   {
   start();
 }
 
 void Clock::display() const { 
-  static unsigned int lastFrames = 0;
+/*  static unsigned int lastFrames = 0;
   static unsigned int oldFrames = 0;
   static unsigned int seconds = getSeconds();
 
@@ -50,11 +58,15 @@ void Clock::display() const {
     seconds = getSeconds();
     lastFrames = frames - oldFrames;
     oldFrames = frames;
-  }
-  IOManager::getInstance()
+  } */
+  
+  /* This prints the fps to screen */
+/*  IOManager::getInstance()
     .printMessageValueAt("seconds: ", seconds, 10, 30);
   IOManager::getInstance()
-    .printMessageValueAt("frames in sec: ", lastFrames, 10, 50);
+    .printMessageValueAt("frames in sec: ", lastFrames, 10, 50); */
+    IOManager::getInstance()
+    .printMessageValueAt("fps: ", fps, 10, 30);
 }
 
 void Clock::toggleSloMo() {
@@ -98,8 +110,28 @@ unsigned int Clock::capFrameRate() const {
 
 /* Increments frame if Clock is not paused */
 Clock& Clock::operator++() { 
+  int elapsedticks = 0;
+
   if ( !paused ) {
     ++frames; 
+
+    elapsedticks = (getTicks() - preTicks);
+    tickSum -= deck_TicksPerFrame[0];
+    deck_TicksPerFrame.pop_front();
+    tickSum += elapsedticks;
+    deck_TicksPerFrame.push_back(elapsedticks);
+
+    /* FPS = 1/secPerFrame 
+    ** => FPSAvergae = 1/SecPerFrameAverage
+    ** => FPSAvergae = 1 / (TotalSec / NumFrames)
+    ** => FPSAverage = NumFrames / TotalSec
+    ** => FPSAverage = NumFrames / (TotalTicks / 1000)
+    ** => FPSAverage = NumFrames * 1000 / TotalTicks
+    */
+    
+    fps = (int) (((float) fpsAveragedOver) * 1000.00f / ((float) tickSum));
+
+    preTicks = getTicks();
   }
   return *this;
 }
@@ -125,3 +157,6 @@ void Clock::unpause() {
   }
 }
 
+unsigned int Clock::getFPS() const {
+  return fps;
+}

@@ -10,6 +10,7 @@
 
 <frameMax>200</frameMax>
 <username>spsharm</username>
+<fpsAveragedOver>200</fpsAveragedOver>
 
 <view>
   <width>854</width>

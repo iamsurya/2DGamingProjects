@@ -41,7 +41,6 @@ Manager::Manager() :
   sprites.push_back( new MultiSprite("spinstar") );
   sprites.push_back( new Sprite("star") );
   sprites.push_back( new Sprite("greenorb") );
-  //sprites.push_back( new Sprite("viewport"));
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
@@ -58,7 +57,7 @@ void Manager::draw() const {
   //io.printMessageAt("Press T to switch sprites", 10, 45);
   io.printMessageAt(title, 10, 450);
   viewport.draw();
-  
+
   SDL_Flip(screen);
 }
 

@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <string>
+#include <deque>
 
 class Manager;
 
@@ -27,6 +28,11 @@ private:
   unsigned int currTicks;
   unsigned int prevTicks;
   unsigned int ticks;
+  unsigned int preTicks;
+
+  unsigned int fpsAveragedOver; /* Average FPS over these many frames */
+  unsigned int fps;
+  std::deque<int> deck_TicksPerFrame;
 
   unsigned int getElapsedTicks();
   Clock& operator++();
@@ -42,6 +48,7 @@ private:
   void pause();
   void unpause();
   void display() const;
+  unsigned int getFPS() const;
 
   Clock();
   Clock(const Clock&);
