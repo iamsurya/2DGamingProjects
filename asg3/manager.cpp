@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <stdlib.h>
 #include "multisprite.h"
 #include "sprite.h"
 #include "gamedata.h"
@@ -22,6 +23,7 @@ Manager::Manager() :
   world("back", Gamedata::getInstance().getXmlInt("back/factor") ),
   blueb("blueb", Gamedata::getInstance().getXmlInt("blueb/factor") ),
   redb("redb", Gamedata::getInstance().getXmlInt("redb/factor") ),
+  layergreensmall("LayerGreenSmall", Gamedata::getInstance().getXmlInt("LayerGreenSmall/factor") ),
   overlay("overlay", Gamedata::getInstance().getXmlInt("overlay/factor")),
   viewport( Viewport::getInstance() ),
   sprites(),
@@ -36,10 +38,18 @@ Manager::Manager() :
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
+
+  srand (time(NULL));
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
-  sprites.push_back( new MultiSprite("spinstar") );
-  sprites.push_back( new Sprite("star") );
+  /* Sprite * A = new Sprite("star");
+  Sprite B = new Sprite("greenorb"); 
+  B = A; */
+  for(int i = 0; i<5; ++i)
+  {
+  sprites.push_back( new MultiSprite("purpchar") );
+  sprites.push_back( new MultiSprite("pinkchar") );
+  }
   sprites.push_back( new Sprite("greenorb") );
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
@@ -48,7 +58,8 @@ void Manager::draw() const {
   world.draw();
   blueb.draw();
   redb.draw();
-  overlay.draw(1);
+  layergreensmall.draw();
+  if(Gamedata::getInstance().getXmlBool("overlay/use")) overlay.draw(1);
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
@@ -95,6 +106,7 @@ void Manager::update() {
   world.update();
   blueb.update();
   redb.update();
+  layergreensmall.update();
   overlay.update();
   viewport.update(); // always update viewport last
 }

@@ -21,6 +21,7 @@ private:
   World world;
   World blueb;
   World redb;
+  World layergreensmall;
   World overlay;
   
   Viewport& viewport;

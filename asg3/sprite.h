@@ -13,6 +13,9 @@ public:
   
   Sprite& operator=(const Sprite &);
   
+  virtual void changevelocity() {
+    velocityX( -abs( velocityX() ) );
+  }
   virtual ~Sprite() { } 
 
   virtual const Frame* getFrame() const { return frame; }

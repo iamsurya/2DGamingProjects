@@ -1,7 +1,7 @@
 #include "multisprite.h"
 #include "gamedata.h"
 #include "frameFactory.h"
-
+#include <stdlib.h>
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
 	if (timeSinceLastFrame > frameInterval) {
@@ -12,10 +12,10 @@ void MultiSprite::advanceFrame(Uint32 ticks) {
 
 MultiSprite::MultiSprite( const std::string& name) :
   Drawable(name, 
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
-                    Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"/speedX"),
-                    Gamedata::getInstance().getXmlInt(name+"/speedY"))
+           Vector2f(rand()%2000,//Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
+                    rand()%2000),//Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
+           Vector2f(((rand()%100)+200)*((rand()%2) - 1 )+50,//*Gamedata::getInstance().getXmlInt(name+"/speedX"),
+                    ((rand()%100)+200)*((rand()%2) - 1 )+50)//*Gamedata::getInstance().getXmlInt(name+"/speedY"))
            ),
   frames( FrameFactory::getInstance().getFrames(name) ),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),

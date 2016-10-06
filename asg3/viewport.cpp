@@ -27,7 +27,7 @@ void Viewport::setObjectToTrack(const Drawable *obj) {
 
 void Viewport::draw() const {
   IOManager::getInstance().
-    printMessageCenteredAt("Tracking "+objectToTrack->getName(), 30);
+    printMessageAt(gdata.getXmlStr("trackingtext/text") + " " + objectToTrack->getName(), gdata.getXmlInt("trackingtext/loc/x"), gdata.getXmlInt("trackingtext/loc/y"));
 }
 
 void Viewport::update() {

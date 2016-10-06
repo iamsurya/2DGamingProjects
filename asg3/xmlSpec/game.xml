@@ -24,7 +24,7 @@
 </playarea>
 
 <world>
-  <width>2000</width>
+  <width>4000</width>
   <height>2000</height>
 </world>
 
@@ -33,48 +33,76 @@
   <red>255</red>
   <green>0</green>
   <blue>255</blue>
-  <factor>6</factor>
+  <factor>7</factor>
   <transparency>true</transparency>
 </back>
 
 <blueb>
   <file>images/Layer4.bmp</file>
-  <factor>5</factor>
+  <factor>6</factor>
   <transparency>true</transparency>
 </blueb>
 
 <redb>
   <file>images/Layer8.bmp</file>
-  <factor>2</factor>
+  <factor>5</factor>
   <transparency>true</transparency>
 </redb>
+
+<LayerGreenSmall>
+  <file>images/Layer3.bmp</file>
+  <factor>3</factor>
+  <transparency>true</transparency>
+</LayerGreenSmall>
 
 <overlay>
   <file>images/Overlay.bmp</file>
   <factor>1</factor>
+  <use>true</use>
   <transparency>true</transparency>
 </overlay>
 
 <font name="font">
-  <file>font/dyslexic-bold.otf</file>
+  <file>font/Market_Deco.ttf</file>
   <size>16</size>
-  <red>0</red>
-  <green>0</green>
-  <blue>0</blue>
+  <red>132</red>
+  <green>193</green>
+  <blue>59</blue>
   <unused>0</unused>
 </font>
 
 
 
 <spinstar>
-  <file>images/star.png</file>
+  <file>images/purpleft.png</file>
   <startLoc x="120" y="140"/>
-  <frames>4</frames>
-  <frameInterval>20</frameInterval>
-  <speedX>-200</speedX>
-  <speedY>200</speedY>
+  <frames>13</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
   <transparency>true</transparency>
 </spinstar>
+
+<purpchar>
+  <file>images/purp.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>13</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</purpchar>
+
+<pinkchar>
+  <file>images/star.png</file>
+  <startLoc x="200" y="400"/>
+  <frames>4</frames>
+  <frameInterval>150</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</pinkchar>
+
 
 <star>
   <file>images/yellowstar32.png</file>
@@ -91,5 +119,16 @@
   <speedY>175</speedY>
   <transparency>true</transparency>
 </greenorb>
+
+
+<trackingtext>
+<text>Tracking </text>
+<loc x="5" y="5" />
+</trackingtext>
+
+<fpstext>
+<text>fps:</text>
+<loc x="5" y="25" />
+</fpstext>
 
 </GameData>

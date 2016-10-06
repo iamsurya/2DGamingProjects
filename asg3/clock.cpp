@@ -66,7 +66,7 @@ void Clock::display() const {
   IOManager::getInstance()
     .printMessageValueAt("frames in sec: ", lastFrames, 10, 50); */
     IOManager::getInstance()
-    .printMessageValueAt("fps: ", fps, 10, 30);
+    .printMessageValueAt(Gamedata::getInstance().getXmlStr("fpstext/text") + " ", fps, Gamedata::getInstance().getXmlInt("fpstext/loc/x"), Gamedata::getInstance().getXmlInt("fpstext/loc/y"));
 }
 
 void Clock::toggleSloMo() {
