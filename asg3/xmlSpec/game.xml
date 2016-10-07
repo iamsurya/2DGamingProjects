@@ -8,7 +8,7 @@
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
 
-<frameMax>200</frameMax>
+<frameMax>300</frameMax>
 <username>spsharm</username>
 <fpsAveragedOver>200</fpsAveragedOver>
 
@@ -94,9 +94,9 @@
 </purpchar>
 
 <pinkchar>
-  <file>images/pinkfull.png</file>
+  <file>images/star.png</file>
   <startLoc x="200" y="400"/>
-  <frames>8</frames>
+  <frames>4</frames>
   <frameInterval>150</frameInterval>
   <speedX>-100</speedX>
   <speedY>-100</speedY>
@@ -104,13 +104,13 @@
 </pinkchar>
 
 
-<star>
-  <file>images/yellowstar32.png</file>
+<pizzamonster>
+  <file>images/pizzamonster.png</file>
   <startLoc x="320" y="240"/>
   <speedX>-175</speedX>
   <speedY>-175</speedY>
   <transparency>true</transparency>
-</star>
+</pizzamonster>
 
 <greenorb>
   <file>images/greenball.bmp</file>

@@ -46,11 +46,12 @@ Manager::Manager() :
   /* Sprite * A = new Sprite("star");
   Sprite B = new Sprite("greenorb"); 
   B = A; */
-  for(int i = 0; i<5; ++i)
+  for(int i = 0; i<4; ++i)
   {
   sprites.push_back( new TwoWaySprite("purpchar") );
   sprites.push_back( new MultiSprite("pinkchar") );
   }
+  sprites.push_back( new Sprite("pizzamonster"));
   //sprites.push_back( new Sprite("greenorb") );
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
