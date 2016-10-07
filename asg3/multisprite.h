@@ -28,6 +28,6 @@ protected:
   int frameWidth;
   int frameHeight;
 
-  void advanceFrame(Uint32 ticks);
+  virtual void advanceFrame(Uint32 ticks);
 };
 #endif

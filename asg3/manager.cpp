@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <stdlib.h>
 #include "multisprite.h"
+#include "twowaysprite.h"
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
@@ -47,10 +48,10 @@ Manager::Manager() :
   B = A; */
   for(int i = 0; i<5; ++i)
   {
-  sprites.push_back( new MultiSprite("purpchar") );
+  sprites.push_back( new TwoWaySprite("purpchar") );
   sprites.push_back( new MultiSprite("pinkchar") );
   }
-  sprites.push_back( new Sprite("greenorb") );
+  //sprites.push_back( new Sprite("greenorb") );
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 

@@ -24,8 +24,8 @@
 </playarea>
 
 <world>
-  <width>4000</width>
-  <height>2000</height>
+  <width>1000</width>
+  <height>1000</height>
 </world>
 
 <back>
@@ -58,7 +58,7 @@
 <overlay>
   <file>images/Overlay.bmp</file>
   <factor>1</factor>
-  <use>true</use>
+  <use>false</use>
   <transparency>true</transparency>
 </overlay>
 
@@ -84,9 +84,9 @@
 </spinstar>
 
 <purpchar>
-  <file>images/purp.png</file>
+  <file>images/purpfull.png</file>
   <startLoc x="120" y="140"/>
-  <frames>13</frames>
+  <frames>26</frames>
   <frameInterval>100</frameInterval>
   <speedX>-100</speedX>
   <speedY>-100</speedY>
@@ -94,9 +94,9 @@
 </purpchar>
 
 <pinkchar>
-  <file>images/star.png</file>
+  <file>images/pinkfull.png</file>
   <startLoc x="200" y="400"/>
-  <frames>4</frames>
+  <frames>8</frames>
   <frameInterval>150</frameInterval>
   <speedX>-100</speedX>
   <speedY>-100</speedY>

@@ -5,7 +5,9 @@
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
 	if (timeSinceLastFrame > frameInterval) {
-    currentFrame = (currentFrame+1) % numberOfFrames;
+    currentFrame = (currentFrame+1) % (numberOfFrames);
+    //if(velocityX() >= 0) currentFrame = (currentFrame+1) % (numberOfFrames/2);
+    //else currentFrame = (numberOfFrames / 2 ) + ((currentFrame+1) % (numberOfFrames/2));
 		timeSinceLastFrame = 0;
 	}
 }
@@ -14,8 +16,8 @@ MultiSprite::MultiSprite( const std::string& name) :
   Drawable(name, 
            Vector2f(rand()%2000,//Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
                     rand()%2000),//Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
-           Vector2f(((rand()%100)+200)*((rand()%2) - 1 )+50,//*Gamedata::getInstance().getXmlInt(name+"/speedX"),
-                    ((rand()%100)+200)*((rand()%2) - 1 )+50)//*Gamedata::getInstance().getXmlInt(name+"/speedY"))
+           Vector2f(((rand()%100)+120)*((rand()%2) - 1 )+50,//*Gamedata::getInstance().getXmlInt(name+"/speedX"),
+                    ((rand()%100)+120)*((rand()%2) - 1 )+50)//*Gamedata::getInstance().getXmlInt(name+"/speedY"))
            ),
   frames( FrameFactory::getInstance().getFrames(name) ),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
