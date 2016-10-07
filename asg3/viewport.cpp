@@ -33,7 +33,7 @@ void Viewport::draw() const {
 void Viewport::update() {
   const float x = objectToTrack->X();
   const float y = objectToTrack->Y();
-  position[0] = (x + objWidth/2) - viewWidth/2 - startX;
+  position[0] = (x + objWidth/2) - viewWidth/2;// - startX;
   position[1] = (y + objHeight/2) - viewHeight/2;
   if (position[0] < 0) position[0] = 0;
   if (position[1] < 0) position[1] = 0;
