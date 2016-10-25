@@ -12,6 +12,8 @@ public:
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+  void checkCollision(const Drawable *);
+
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }

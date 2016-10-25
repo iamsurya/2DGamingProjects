@@ -1,0 +1,134 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Surya Sharma's Moeboid Remake</screenTitle>
+<maxStringSize>50</maxStringSize>
+
+<frameCap>60</frameCap>
+<framesAreCapped>true</framesAreCapped>
+
+<frameMax>300</frameMax>
+<username>spsharm</username>
+<fpsAveragedOver>200</fpsAveragedOver>
+
+<view>
+  <width>854</width>
+  <height>480</height>
+</view>
+
+<playarea>
+  <startx>400</startx>
+  <width>400</width>
+  <height>480</height>
+</playarea>
+
+<world>
+  <width>1000</width>
+  <height>1000</height>
+</world>
+
+<back>
+  <file>images/Layer0.bmp</file>
+  <red>255</red>
+  <green>0</green>
+  <blue>255</blue>
+  <factor>7</factor>
+  <transparency>true</transparency>
+</back>
+
+<blueb>
+  <file>images/Layer4.bmp</file>
+  <factor>6</factor>
+  <transparency>true</transparency>
+</blueb>
+
+<redb>
+  <file>images/Layer8.bmp</file>
+  <factor>5</factor>
+  <transparency>true</transparency>
+</redb>
+
+<LayerGreenSmall>
+  <file>images/Layer3.bmp</file>
+  <factor>3</factor>
+  <transparency>true</transparency>
+</LayerGreenSmall>
+
+<overlay>
+  <file>images/Overlay.bmp</file>
+  <factor>1</factor>
+  <use>false</use>
+  <transparency>true</transparency>
+</overlay>
+
+<font name="font">
+  <file>font/Market_Deco.ttf</file>
+  <size>16</size>
+  <red>132</red>
+  <green>193</green>
+  <blue>59</blue>
+  <unused>0</unused>
+</font>
+
+
+
+<spinstar>
+  <file>images/purpleft.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>13</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</spinstar>
+
+<purpchar>
+  <file>images/purpfull.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>26</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</purpchar>
+
+<pinkchar>
+  <file>images/star.png</file>
+  <startLoc x="200" y="400"/>
+  <frames>4</frames>
+  <frameInterval>150</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</pinkchar>
+
+
+<pizzamonster>
+  <file>images/pizzamonster.png</file>
+  <startLoc x="320" y="240"/>
+  <speedX>-175</speedX>
+  <speedY>-175</speedY>
+  <transparency>true</transparency>
+</pizzamonster>
+
+<greenorb>
+  <file>images/greenball.bmp</file>
+  <startLoc x="320" y="240"/>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+</greenorb>
+
+
+<trackingtext>
+<text>Tracking </text>
+<loc x="5" y="5" />
+</trackingtext>
+
+<fpstext>
+<text>fps:</text>
+<loc x="5" y="25" />
+</fpstext>
+
+</GameData>

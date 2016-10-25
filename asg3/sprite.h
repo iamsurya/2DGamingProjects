@@ -20,7 +20,7 @@ public:
 
   virtual const Frame* getFrame() const { return frame; }
   virtual void draw() const;
-
+  void checkCollision(const Drawable *);
   virtual void update(Uint32 ticks);
 
 private:

@@ -1,6 +1,7 @@
 #include "multisprite.h"
 #include "gamedata.h"
 #include "frameFactory.h"
+#include <cmath>
 #include <stdlib.h>
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -47,6 +48,19 @@ void MultiSprite::draw() const {
   Uint32 y = static_cast<Uint32>(Y());
   frames[currentFrame]->draw(x, y);
 }
+
+void MultiSprite::checkCollision(const Drawable *obj) {
+  if( hypot(X()-obj->X(), Y()-obj->Y()) < 15 ) 
+  {
+  frameWidth = 0.5 * (frames[0]->getWidth());
+  frameHeight = 0.5 * (frames[0]->getHeight());
+  }
+  else{
+  frameWidth = frames[0]->getWidth();
+  frameHeight = frames[0]->getHeight();  
+  }
+}
+
 
 void MultiSprite::update(Uint32 ticks) { 
   advanceFrame(ticks);

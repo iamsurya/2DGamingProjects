@@ -55,6 +55,18 @@ int Sprite::getDistance(const Sprite *obj) const {
   return hypot(X()-obj->X(), Y()-obj->Y());
 }
 
+void Sprite::checkCollision(const Drawable *obj) {
+  if( hypot(X()-obj->X(), Y()-obj->Y()) < 20 ) 
+  {
+  frameWidth = 0.5 * frame->getWidth();
+  frameHeight = 0.5 * frame->getHeight();
+  }
+  else{
+  frameWidth = frame->getWidth();
+  frameHeight = frame->getHeight();  
+  }
+}
+
 void Sprite::update(Uint32 ticks) { 
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);

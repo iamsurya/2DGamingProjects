@@ -101,6 +101,10 @@ void Manager::update() {
 
   for (unsigned int i = 0; i < sprites.size(); ++i) {
     sprites[i]->update(ticks);
+    for(unsigned int j = (i+1); j < sprites.size(); ++j)
+      {
+        sprites[i]->checkCollision(sprites[j]);
+      }
   }
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();

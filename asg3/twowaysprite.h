@@ -5,6 +5,7 @@
 class TwoWaySprite : public MultiSprite {
 public:
     TwoWaySprite(const std::string &);
+    void checkCollision(const Drawable *);
 protected:
 void advanceFrame(Uint32 ticks);
 };

@@ -20,6 +20,8 @@ public:
 
   virtual ~Drawable() {}
 
+  virtual void checkCollision(const Drawable *) = 0;
+
   const std::string& getName() const { return name; }
   void setName(const std::string& n) { name = n;    }
   virtual const Frame* getFrame() const = 0;
@@ -42,7 +44,7 @@ public:
   void setVelocity(const Vector2f& vel) { velocity = vel;  }
   const Vector2f& getPosition() const   { return position; }
   void setPosition(const Vector2f& pos) { position = pos;  }
-
+        
   virtual bool collidedWith(const Drawable*) const { 
     throw std::string("No collidedWith");  
   }
