@@ -10,7 +10,6 @@ Viewport& Viewport::getInstance() {
 Viewport::Viewport() : 
   gdata(Gamedata::getInstance()),
   position(0, 0),
-  startX(gdata.getXmlInt("playarea/startx")), 
   viewWidth(gdata.getXmlInt("view/width")), 
   viewHeight(gdata.getXmlInt("view/height")),
   worldWidth(gdata.getXmlInt("world/width")),
@@ -27,13 +26,13 @@ void Viewport::setObjectToTrack(const Drawable *obj) {
 
 void Viewport::draw() const {
   IOManager::getInstance().
-    printMessageAt(gdata.getXmlStr("trackingtext/text") + " " + objectToTrack->getName(), gdata.getXmlInt("trackingtext/loc/x"), gdata.getXmlInt("trackingtext/loc/y"));
+    printMessageCenteredAt("Tracking "+objectToTrack->getName(), 30);
 }
 
 void Viewport::update() {
   const float x = objectToTrack->X();
   const float y = objectToTrack->Y();
-  position[0] = (x + objWidth/2) - viewWidth/2;// - startX;
+  position[0] = (x + objWidth/2) - viewWidth/2;
   position[1] = (y + objHeight/2) - viewHeight/2;
   if (position[0] < 0) position[0] = 0;
   if (position[1] < 0) position[1] = 0;
@@ -43,4 +42,5 @@ void Viewport::update() {
   if (position[1] > (worldHeight - viewHeight)) {
     position[1] = worldHeight-viewHeight;
   }
+  //std::cout<<"X : "<<position[0]<<" Y : "<<position[1]<<" vW : "<<viewWidth/2<<" vH: "<<viewHeight/2<<" oW : "<<objWidth/2<<" oH: "<<objHeight/2<<" wW : "<<worldWidth/2<<" wH: "<<worldHeight/2<<std::endl;
 }

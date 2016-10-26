@@ -4,6 +4,7 @@
 #include "clock.h"
 #include "world.h"
 #include "viewport.h"
+#include "player.h"
 
 class Manager {
 public:
@@ -34,6 +35,8 @@ private:
   const std::string username;
   const std::string title;
   const int frameMax;
+
+  Player player;
 
   void draw() const;
   void update();

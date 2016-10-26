@@ -21,7 +21,7 @@ public:
 private:
   const Gamedata& gdata;
   Vector2f position;
-  unsigned startX;
+  //unsigned startX;
   unsigned viewWidth;
   unsigned viewHeight;
   unsigned worldWidth;

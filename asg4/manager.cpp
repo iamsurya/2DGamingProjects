@@ -7,6 +7,7 @@
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
+#include "player.h"
 
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
@@ -34,7 +35,8 @@ Manager::Manager() :
   frameCount( 0 ),
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
-  frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
+  frameMax( Gamedata::getInstance().getXmlInt("frameMax") ),
+  player("player")
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -53,7 +55,9 @@ Manager::Manager() :
   }
   sprites.push_back( new Sprite("pizzamonster"));
   //sprites.push_back( new Sprite("greenorb") );
-  viewport.setObjectToTrack(sprites[currentSprite]);
+  player.velocityX(0);
+  player.velocityY(0);
+  viewport.setObjectToTrack(&player);
 }
 
 void Manager::draw() const {
@@ -65,10 +69,15 @@ void Manager::draw() const {
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
+  player.draw();
   clock.display();
   //io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
   //io.printMessageAt("Press T to switch sprites", 10, 45);
   io.printMessageAt(title, 10, 450);
+  io.printMessageValueAt("X: ", player.X(), 10, 70);
+  io.printMessageValueAt("Y: ", player.Y(), 10, 110);
+  io.printMessageValueAt("XV: ", player.velocityX(), 10, 150);
+  io.printMessageValueAt("YV: ", player.velocityY(), 10, 190);
   viewport.draw();
 
   SDL_Flip(screen);
@@ -87,6 +96,7 @@ void Manager::makeFrame() {
 void Manager::switchSprite() {
   currentSprite = (currentSprite+1) % sprites.size();
   viewport.setObjectToTrack(sprites[currentSprite]);
+  //viewport.setObjectToTrack(&player);
 }
 
 void Manager::update() {
@@ -109,6 +119,7 @@ void Manager::update() {
   blueb.update();
   redb.update();
   layergreensmall.update();
+  player.update(ticks);
   overlay.update();
   viewport.update(); // always update viewport last
 }
@@ -121,6 +132,8 @@ void Manager::play() {
     while ( SDL_PollEvent(&event) ) {
       Uint8 *keystate = SDL_GetKeyState(NULL);
       if (event.type ==  SDL_QUIT) { done = true; break; }
+      
+      /* If key is pressed, move the player */
       if(event.type == SDL_KEYDOWN) {
         if (keystate[SDLK_ESCAPE] || keystate[SDLK_q]) {
           done = true;
@@ -129,9 +142,25 @@ void Manager::play() {
         if ( keystate[SDLK_t] ) {
           switchSprite();
         }
+        
+        /* Up / Down */
         if ( keystate[SDLK_s] ) {
-          clock.toggleSloMo();
+          player.velocityY(30);
+          //clock.toggleSloMo();
         }
+        else if ( keystate[SDLK_w] ) {
+          player.velocityY(-30);
+        }
+
+        /* Left / Right */
+        if ( keystate[SDLK_d] ) {
+          player.velocityX(30);
+        }
+        if ( keystate[SDLK_a] ) {
+          player.velocityX(-30);
+        }
+        
+        
         if ( keystate[SDLK_p] ) {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
@@ -140,6 +169,31 @@ void Manager::play() {
           std::cout << "Making video frames" << std::endl;
           makeVideo = true;
         }
+
+      }
+
+      /* When key is unpressed, make velocities 0 */
+      if(event.type == SDL_KEYUP) {
+        
+        player.velocityY(0);
+        player.velocityX(0);
+        /* Up / Down */
+        if ( keystate[SDLK_s] ) {
+          player.velocityY(0);
+          //clock.toggleSloMo();
+        }
+        else if ( keystate[SDLK_w] ) {
+          player.velocityY(0);
+        }
+
+        /* Left / Right */
+        if ( keystate[SDLK_d] ) {
+          player.velocityX(0);
+        }
+        if ( keystate[SDLK_a] ) {
+          player.velocityX(0);
+        }
+
       }
     }
     draw();
