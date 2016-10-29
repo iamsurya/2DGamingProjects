@@ -22,12 +22,3 @@ void World::draw() const {
   frame->draw(viewX, viewY, 0, 0); 
   frame->draw(0, viewY, frameWidth-viewX, 0); 
 }
-
-
-/* Draw Overlay using overloading to create a seperate function for the Overlay */
-void World::draw(int viewp) const {
-  viewp++; /* Hack to remove the unused warning */
-  frame->draw(0, 0, 0, 0); 
-  frame->draw(0, 0, 0, 0); 
-}
-

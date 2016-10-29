@@ -9,6 +9,7 @@
 #include "manager.h"
 #include "player.h"
 
+
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
@@ -26,7 +27,6 @@ Manager::Manager() :
   blueb("blueb", Gamedata::getInstance().getXmlInt("blueb/factor") ),
   redb("redb", Gamedata::getInstance().getXmlInt("redb/factor") ),
   layergreensmall("LayerGreenSmall", Gamedata::getInstance().getXmlInt("LayerGreenSmall/factor") ),
-  overlay("overlay", Gamedata::getInstance().getXmlInt("overlay/factor")),
   viewport( Viewport::getInstance() ),
   sprites(),
   currentSprite(0),
@@ -36,7 +36,8 @@ Manager::Manager() :
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ),
-  player("player")
+  player("player"),
+  hud()
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -65,7 +66,6 @@ void Manager::draw() const {
   blueb.draw();
   redb.draw();
   layergreensmall.draw();
-  if(Gamedata::getInstance().getXmlBool("overlay/use")) overlay.draw(1);
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
@@ -78,6 +78,7 @@ void Manager::draw() const {
   io.printMessageValueAt("Y: ", player.Y(), 10, 110);
   io.printMessageValueAt("XV: ", player.velocityX(), 10, 150);
   io.printMessageValueAt("YV: ", player.velocityY(), 10, 190);
+  hud.draw();
   viewport.draw();
 
   SDL_Flip(screen);
@@ -120,82 +121,42 @@ void Manager::update() {
   redb.update();
   layergreensmall.update();
   player.update(ticks);
-  overlay.update();
   viewport.update(); // always update viewport last
 }
 
 void Manager::play() {
   SDL_Event event;
+  //SDL_KeyboardEvent keyEvent;
   bool done = false;
-
+  Uint8 *keystate = NULL;
   while ( not done ) {
     while ( SDL_PollEvent(&event) ) {
-      Uint8 *keystate = SDL_GetKeyState(NULL);
+      keystate = SDL_GetKeyState(NULL);
       if (event.type ==  SDL_QUIT) { done = true; break; }
-      
-      /* If key is pressed, move the player */
-      if(event.type == SDL_KEYDOWN) {
-        if (keystate[SDLK_ESCAPE] || keystate[SDLK_q]) {
-          done = true;
-          break;
-        }
-        if ( keystate[SDLK_t] ) {
-          switchSprite();
-        }
-        
-        /* Up / Down */
-        if ( keystate[SDLK_s] ) {
-          player.velocityY(30);
-          //clock.toggleSloMo();
-        }
-        else if ( keystate[SDLK_w] ) {
-          player.velocityY(-30);
-        }
-
-        /* Left / Right */
-        if ( keystate[SDLK_d] ) {
-          player.velocityX(30);
-        }
-        if ( keystate[SDLK_a] ) {
-          player.velocityX(-30);
-        }
-        
-        
-        if ( keystate[SDLK_p] ) {
-          if ( clock.isPaused() ) clock.unpause();
-          else clock.pause();
-        }
-        if (keystate[SDLK_F4] && !makeVideo) {
+     
+      /* Make frames for submission */
+      if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;
           makeVideo = true;
         }
-
-      }
-
-      /* When key is unpressed, make velocities 0 */
-      if(event.type == SDL_KEYUP) {
-        
-        player.velocityY(0);
-        player.velocityX(0);
-        /* Up / Down */
-        if ( keystate[SDLK_s] ) {
-          player.velocityY(0);
-          //clock.toggleSloMo();
-        }
-        else if ( keystate[SDLK_w] ) {
-          player.velocityY(0);
+      
+      /* Quit when Escape is pressed */
+      if (keystate[SDLK_ESCAPE] || keystate[SDLK_q]) {
+          done = true;
+          break;
         }
 
-        /* Left / Right */
-        if ( keystate[SDLK_d] ) {
-          player.velocityX(0);
+      /* Pause game if p is pressed */
+      if ( keystate[SDLK_p] ) {
+          if ( clock.isPaused() ) clock.unpause();
+          else clock.pause();
         }
-        if ( keystate[SDLK_a] ) {
-          player.velocityX(0);
-        }
-
-      }
+      
+      /* Ask the player class to handle keyboard presses */
+      
     }
+
+    player.handleEvent(&event.key);
     draw();
     update();
   }

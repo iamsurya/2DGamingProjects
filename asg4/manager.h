@@ -5,7 +5,7 @@
 #include "world.h"
 #include "viewport.h"
 #include "player.h"
-
+#include "hud.h"
 class Manager {
 public:
   Manager ();
@@ -23,8 +23,7 @@ private:
   World blueb;
   World redb;
   World layergreensmall;
-  World overlay;
-  
+
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
@@ -37,6 +36,7 @@ private:
   const int frameMax;
 
   Player player;
+  Hud hud;
 
   void draw() const;
   void update();

@@ -101,6 +101,7 @@
   <frameInterval>100</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
+  <speed>50</speed>
   <transparency>true</transparency>
 </player>
 
