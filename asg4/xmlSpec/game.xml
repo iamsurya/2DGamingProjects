@@ -2,7 +2,7 @@
 <GameData>
 <!-- screenTitle is also used to identify you and your animation. 
      So make sure to include your name as part of the screenTitle -->
-<screenTitle>Surya Sharma's Moeboid Remake</screenTitle>
+<screenTitle>Surya Sharma</screenTitle>
 <maxStringSize>50</maxStringSize>
 
 <frameCap>60</frameCap>
@@ -39,19 +39,19 @@
 
 <blueb>
   <file>images/Layer4.bmp</file>
-  <factor>6</factor>
+  <factor>12</factor>
   <transparency>true</transparency>
 </blueb>
 
 <redb>
   <file>images/Layer8.bmp</file>
-  <factor>5</factor>
+  <factor>4</factor>
   <transparency>true</transparency>
 </redb>
 
 <LayerGreenSmall>
   <file>images/Layer3.bmp</file>
-  <factor>3</factor>
+  <factor>1</factor>
   <transparency>true</transparency>
 </LayerGreenSmall>
 
@@ -101,8 +101,12 @@
   <frameInterval>100</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
-  <speed>50</speed>
+  <speed>80</speed>
   <transparency>true</transparency>
+  <aimerthickness>2</aimerthickness>
+  <aimred>251</aimred>
+  <aimgreen>232</aimgreen>
+  <aimblue>163</aimblue>
 </player>
 
 <pinkchar>
@@ -140,7 +144,44 @@
 
 <fpstext>
 <text>fps:</text>
-<loc x="5" y="25" />
+<loc x="5" y="13" />
 </fpstext>
+
+<tophud>
+  <gamename>EVOLUTION</gamename>
+  <lineYloc>50</lineYloc>
+  <linethickness>5</linethickness>
+  <titleyloc>13</titleyloc>
+  <linered>132</linered>
+  <linegreen>193</linegreen>
+  <lineblue>59</lineblue>
+  <fontfile>font/ghost_crazy.ttf</fontfile>
+  <fontsize>24</fontsize>
+  <showtime>5500</showtime>
+</tophud>
+
+<bothud>
+  <lineYloc>430</lineYloc>
+  <linethickness>5</linethickness>
+  <titleyloc>13</titleyloc>
+  <linered>132</linered>
+  <linegreen>193</linegreen>
+  <lineblue>59</lineblue>
+  <fontfile>font/ghost_crazy.ttf</fontfile>
+  <fontsize>24</fontsize>
+</bothud>
+
+<avoidtext>
+<text>Avoid: Purple Enemies</text>
+<xloc>600</xloc>
+<yloc>17</yloc>
+<fontnum>0</fontnum>
+</avoidtext>
+
+<helptext>
+<text>Use asdw to move, mouse to aim and shoot, F1 to toggle HUD, F4 for frames</text>
+<xloc>150</xloc>
+<yloc>450</yloc>
+</helptext>
 
 </GameData>

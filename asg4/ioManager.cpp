@@ -15,9 +15,11 @@ IOManager::IOManager( ) :
   MAX_STRING_SIZE( gdata.getXmlInt("maxStringSize") ),
     // The 3rd and 4th parameters are just as important as the first 2!
     screen(SDL_SetVideoMode(viewWidth, viewHeight, 32, SDL_DOUBLEBUF)),
-    font( NULL ), 
+    font( NULL ),
     color(),
-    inputString("")  
+    inputString(""),
+    gamefont( NULL ),
+    currentfont(NULL)
 {
   if (screen == NULL) { 
     throw string("Unable to set video mode; screen is NULL in IOMAnager"); 
@@ -32,6 +34,14 @@ IOManager::IOManager( ) :
   if ( !font ) {
     throw string("TTF_OpenFont failed: ") + TTF_GetError();
   }
+  gamefont = TTF_OpenFont(
+         gdata.getXmlStr("tophud/fontfile").c_str(), 
+         gdata.getXmlInt("tophud/fontsize")
+         );
+  if ( !gamefont ) {
+    throw string("TTF_OpenFont failed: ") + TTF_GetError();
+  }
+
   color.r = gdata.getXmlInt("font/red");
   color.g = gdata.getXmlInt("font/green");
   color.b = gdata.getXmlInt("font/blue");
@@ -74,6 +84,21 @@ void IOManager::printMessageAt(const string& msg, Sint16 x, Sint16 y) const {
    }
 }
 
+void IOManager::printMessageAt(const string& msg, Sint16 x, Sint16 y, Uint32 fontnum) {
+   setfont(fontnum);
+   Uint16 zero = 0;
+   SDL_Rect dest = {x,y,zero,zero};
+   SDL_Surface * stext = TTF_RenderText_Blended(font, msg.c_str(), color);
+   if (stext) {
+     SDL_BlitSurface( stext, NULL, screen, &dest );
+     SDL_FreeSurface(stext);
+   }
+   else {
+     throw 
+     string("Couldn't allocate text sureface in printMessageAt");
+   }
+}
+
 void IOManager::printMessageCenteredAt( const string& msg, Sint16 y) const {
    SDL_Surface *stext = TTF_RenderText_Blended(font, msg.c_str(), color);
    if (stext) {
@@ -86,6 +111,22 @@ void IOManager::printMessageCenteredAt( const string& msg, Sint16 y) const {
      throw 
      string("Couldn't allocate text sureface in printMessageCenteredAt");
    }
+}
+
+void IOManager::printMessageCenteredAt( const string& msg, Sint16 y, Uint32 fontnum) {
+   setfont(fontnum);
+   SDL_Surface *stext = TTF_RenderText_Blended(currentfont, msg.c_str(), color);
+   if (stext) {
+     Sint16 x = ( viewWidth - stext->w ) / 2;
+     SDL_Rect dest = {x,y,0,0};
+     SDL_BlitSurface( stext, NULL, screen, &dest );
+     SDL_FreeSurface(stext);
+   }
+   else {
+     throw 
+     string("Couldn't allocate text sureface in printMessageCenteredAt");
+   }
+
 }
 
 void IOManager::printStringAfterMessage( const string& msg,
@@ -108,3 +149,12 @@ void IOManager::buildString(SDL_Event event) {
   }
 }
 
+void IOManager::setfont(Uint32 fontnum)
+{
+  switch(fontnum)
+   {
+     case 0: currentfont = font; break;
+     case 2: currentfont = gamefont; break;
+     default: currentfont = font; break;
+   }
+}

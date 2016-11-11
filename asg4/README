@@ -1,13 +1,22 @@
 Name: Surya Sharma
 Clemson Email Address: spsharm@clemson.edu
 
-Project no: 3
-Project due date: 10/7/2016
+Project no: 4
+Project due date: 10/28/2016
 
-Project description: This project requires students to create a meaningful animation with parallax and two way sprites.
+Project description: This project requires the creation of an HUD, player control using the keyboard and using painters algorithm.
 
-Extra Contribution: Created my own sprites, except for the pizza which is from Wikipedia under GFDL. https://en.wikipedia.org/wiki/Pizza#/media/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg
+Extra Contribution: All sprites and images were created by me.
 
-Problems with this project: The tracker might take time to "find" the first sprite.
-This is because my sprites chose random start locations which might not be in the viewport when it loads. I realized this 40 minutes before submmission was due and did not have enough time to correct it.
-I tried to create an overlay but wasn't able to before the deadline. This does not impact the requirements for submission in anyway.
+Game description: The game is set inside a biological cell. The player has to eat smaller microbes and grow bigger: scoring more points while avoiding larger microbes.
+Enemies become faster and increase in number as the score increases. The game ends when the player is eaten by a larger microbe or becomes the largest microbe (reaching a score of 20,000).  
+
+Notes:
+Fonts from dafont.com, free for personal use: http://www.dafont.com/ghost-crazy.font
+
+I'm not sure if I'm correctly using const everywhere.
+
+To Do: The player class should probably be a Myers Singleton.
+To Do: I think I'm using magic numbers in two places, I should move them to the XML file.
+To Do: The green objects look like they are sprites but they are a part of the parallax effect. Turn them into sprites maybe?
+To Do: Fix sprite images. Resizing them from a larger image to sprite size leaves a pink border around them.

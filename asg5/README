@@ -1,0 +1,22 @@
+Name: Surya Sharma
+Clemson Email Address: spsharm@clemson.edu
+
+Project no: 4
+Project due date: 10/28/2016
+
+Project description: This project requires the creation of an HUD, player control using the keyboard and using painters algorithm.
+
+Extra Contribution: All sprites and images were created by me.
+
+Game description: The game is set inside a biological cell. The player has to eat smaller microbes and grow bigger: scoring more points while avoiding larger microbes.
+Enemies become faster and increase in number as the score increases. The game ends when the player is eaten by a larger microbe or becomes the largest microbe (reaching a score of 20,000).  
+
+Notes:
+Fonts from dafont.com, free for personal use: http://www.dafont.com/ghost-crazy.font
+
+I'm not sure if I'm correctly using const everywhere.
+
+To Do: The player class should probably be a Myers Singleton.
+To Do: I think I'm using magic numbers in two places, I should move them to the XML file.
+To Do: The green objects look like they are sprites but they are a part of the parallax effect. Turn them into sprites maybe?
+To Do: Fix sprite images. Resizing them from a larger image to sprite size leaves a pink border around them.

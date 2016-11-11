@@ -50,23 +50,7 @@ Clock::Clock(const Clock& c) :
 }
 
 void Clock::display() const { 
-/*  static unsigned int lastFrames = 0;
-  static unsigned int oldFrames = 0;
-  static unsigned int seconds = getSeconds();
 
-  if ( getSeconds() > seconds ) {
-    seconds = getSeconds();
-    lastFrames = frames - oldFrames;
-    oldFrames = frames;
-  } */
-  
-  /* This prints the fps to screen */
-/*  IOManager::getInstance()
-    .printMessageValueAt("seconds: ", seconds, 10, 30);
-  IOManager::getInstance()
-    .printMessageValueAt("frames in sec: ", lastFrames, 10, 50); */
-    IOManager::getInstance()
-    .printMessageValueAt(Gamedata::getInstance().getXmlStr("fpstext/text") + " ", fps, Gamedata::getInstance().getXmlInt("fpstext/loc/x"), Gamedata::getInstance().getXmlInt("fpstext/loc/y"));
 }
 
 void Clock::toggleSloMo() {

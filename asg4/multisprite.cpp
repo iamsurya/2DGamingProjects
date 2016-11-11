@@ -10,7 +10,7 @@ void MultiSprite::advanceFrame(Uint32 ticks) {
 	}
 }
 
-MultiSprite::MultiSprite( const std::string& name) :
+MultiSprite::MultiSprite( const std::string& name, double z) :
   Drawable(name, 
            Vector2f(rand()%2000,//Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
                     rand()%2000),//Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
@@ -26,7 +26,8 @@ MultiSprite::MultiSprite( const std::string& name) :
   frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval") ),
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
-  frameHeight(frames[0]->getHeight())
+  frameHeight(frames[0]->getHeight()),
+  zoom(z)
 { }
 
 MultiSprite::MultiSprite(const MultiSprite& s) :
@@ -39,19 +40,20 @@ MultiSprite::MultiSprite(const MultiSprite& s) :
   frameInterval( s.frameInterval ),
   timeSinceLastFrame( s.timeSinceLastFrame ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight )
+  frameHeight( s.frameHeight ),
+  zoom(s.zoom)
   { }
 
 void MultiSprite::draw() const { 
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
-  frames[currentFrame]->draw(x, y);
+  frames[currentFrame]->draw(x, y, 0, zoom);
 }
 
 void MultiSprite::update(Uint32 ticks) { 
   advanceFrame(ticks);
 
-  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001 * zoom;
   setPosition(getPosition() + incr);
 
   if ( Y() < 0) {

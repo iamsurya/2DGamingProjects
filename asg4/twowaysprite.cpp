@@ -10,5 +10,5 @@ void TwoWaySprite::advanceFrame(Uint32 ticks){
 	}
 }
 
-    TwoWaySprite::TwoWaySprite(const std::string & name) : MultiSprite(name)
+    TwoWaySprite::TwoWaySprite(const std::string & name, double zoom) : MultiSprite(name,zoom)
 {}

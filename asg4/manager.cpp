@@ -51,10 +51,20 @@ Manager::Manager() :
   B = A; */
   for(int i = 0; i<4; ++i)
   {
-  sprites.push_back( new TwoWaySprite("purpchar") );
-  sprites.push_back( new MultiSprite("pinkchar") );
+    sprites.push_back( new MultiSprite("pinkchar", 0.35) );
+    sprites.push_back( new TwoWaySprite("purpchar", 0.35) );  
   }
-  sprites.push_back( new Sprite("pizzamonster"));
+  for(int i = 0; i<4; ++i)
+  {
+    sprites.push_back( new MultiSprite("pinkchar", 0.6) );
+    sprites.push_back( new TwoWaySprite("purpchar", 0.6) );  
+  }
+  for(int i = 0; i<4; ++i)
+  {
+  sprites.push_back( new TwoWaySprite("purpchar", 1) );
+  sprites.push_back( new MultiSprite("pinkchar", 1) );
+  }
+  
   //sprites.push_back( new Sprite("greenorb") );
   player.velocityX(0);
   player.velocityY(0);
@@ -73,11 +83,11 @@ void Manager::draw() const {
   clock.display();
   //io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
   //io.printMessageAt("Press T to switch sprites", 10, 45);
-  io.printMessageAt(title, 10, 450);
-  io.printMessageValueAt("X: ", player.X(), 10, 70);
+  
+/*  io.printMessageValueAt("X: ", player.X(), 10, 70);
   io.printMessageValueAt("Y: ", player.Y(), 10, 110);
   io.printMessageValueAt("XV: ", player.velocityX(), 10, 150);
-  io.printMessageValueAt("YV: ", player.velocityY(), 10, 190);
+  io.printMessageValueAt("YV: ", player.velocityY(), 10, 190);*/
   hud.draw();
   viewport.draw();
 
@@ -121,6 +131,7 @@ void Manager::update() {
   redb.update();
   layergreensmall.update();
   player.update(ticks);
+  hud.update();
   viewport.update(); // always update viewport last
 }
 
@@ -152,11 +163,16 @@ void Manager::play() {
           else clock.pause();
         }
       
+      if ( keystate[SDLK_F1] ) {
+          hud.toggleshow();
+        }
+
       /* Ask the player class to handle keyboard presses */
       
     }
 
     player.handleEvent(&event.key);
+    player.handleMouseEvent(&event.motion);
     draw();
     update();
   }

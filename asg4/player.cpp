@@ -1,5 +1,6 @@
 #include "string"
 #include "player.h"
+#include "viewport.h"
 
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
@@ -14,24 +15,71 @@ void Player::advanceFrame(Uint32 ticks){
 	}
 }
 
-    Player::Player(const std::string & name) : MultiSprite(name), accelerationX(0), accelerationY(0)
-{}
+    Player::Player(const std::string & name) : MultiSprite(name), accelerationX(0), accelerationY(0),
+    screen(IOManager::getInstance().getScreen()),
+    aimcolor(SDL_MapRGB(screen->format,Gamedata::getInstance().getXmlInt("player/aimred"),Gamedata::getInstance().getXmlInt("player/aimgreen"),Gamedata::getInstance().getXmlInt("player/aimblue"))),
+    mousex(0), mousey(0), drawline(false)    
+    {
+      X(200); Y(200);
+    }
+
+void Player::draw() const { 
+  Uint32 x = X() - Viewport::getInstance().X() + (frames[currentFrame]->getWidth()/2);
+  Uint32 y = Y() - Viewport::getInstance().Y() + (frames[currentFrame]->getHeight()/2);
+  
+  if(drawline)
+  {
+  Draw_AALine(screen, x,y, mousex,mousey, Gamedata::getInstance().getXmlInt("player/aimerthickness"), aimcolor);
+  drawline = false;
+  }
+
+  x = static_cast<Uint32>(X());
+  y = static_cast<Uint32>(Y());
+  frames[currentFrame]->draw(x, y, 0, zoom);
+
+}
 
 void Player::update(Uint32 ticks)
 {
     advanceFrame(ticks);
     
+  if (( Y() < 10) && (velocityY() < 0)) {
+    velocityY(0);
+  }
+  if (( Y() > worldHeight-frameHeight-5) && (velocityY() > 0)) {
+    velocityY(0);
+  }
+
+  if ( (X() < 10) && (velocityX() < 0)){
+    velocityX( 0);
+  }
+  if ( (X() > worldWidth-frameWidth-10) && (velocityX() > 0) ) {
+    velocityX(0);
+  }  
+
     /* Handle velocity changes after keypress */
     if(velocityY() != 0) velocityY(velocityY() - (accelerationY) );
     if(velocityX() != 0) velocityX(velocityX() - (accelerationX) );
 
     /* Update position */
     Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+    
     setPosition(getPosition() + incr);
     
 }
 
-
+// TODO: Stop using magic numbers
+void Player::handleMouseEvent(const SDL_MouseMotionEvent *event)
+{
+  
+  mousex = event->x;
+  mousey = event->y;
+  if( (mousex>5) && (mousey > 5) && (mousex < 850) && (mousey < 475))
+  {
+  drawline = true;
+  }
+  else drawline = false;
+}
 
 /* Help from https://www.libsdl.org/release/SDL-1.2.15/docs/html/guideinputkeyboard.html */
 void Player::handleEvent(const SDL_KeyboardEvent *event)
@@ -83,3 +131,4 @@ void Player::handleEvent(const SDL_KeyboardEvent *event)
         }
       }
 }
+

@@ -9,7 +9,8 @@ public:
   static Clock& getInstance();
   unsigned int getTicks() const;
   unsigned int getTotalTicks() const { return sumOfAllTicks; }
-
+  unsigned int getFPS() const;
+  
 private:
   friend class Manager;
   
@@ -48,7 +49,7 @@ private:
   void pause();
   void unpause();
   void display() const;
-  unsigned int getFPS() const;
+  
 
   Clock();
   Clock(const Clock&);

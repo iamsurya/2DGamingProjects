@@ -54,3 +54,26 @@ void Frame::draw(Sint16 x, Sint16 y, double angle) const {
   SDL_FreeSurface( tmp );
 }
 
+void Frame::draw(Sint16 x, Sint16 y, double angle, double zoom) const {
+  SDL_Surface* temp = rotozoomSurface(surface, angle, zoom, 1);
+
+  Uint32 colorkey = SDL_MapRGB(temp->format, 0, 0, 0);
+	SDL_SetColorKey(temp, SDL_SRCCOLORKEY | SDL_RLEACCEL, colorkey);
+
+	SDL_Surface * tmp = SDL_DisplayFormat(temp);
+			SDL_FreeSurface(temp);
+
+  Uint16 alpha = (255 * zoom) + 20;
+  if(alpha > 255) alpha = 255;
+
+  SDL_SetAlpha(tmp, SDL_SRCALPHA, alpha);
+  Sint16 zero = 0;
+  Uint16 width = tmp->w;
+  Uint16 height = tmp->h;
+  SDL_Rect src = { zero, zero, width, height };    
+  x -= Viewport::getInstance().X();
+  y -= Viewport::getInstance().Y();
+  SDL_Rect dest = {x, y, 0, 0 };
+  SDL_BlitSurface(tmp, &src, screen, &dest);
+  SDL_FreeSurface( tmp );
+}

@@ -6,7 +6,7 @@
 
 class MultiSprite : public Drawable {
 public:
-  MultiSprite(const std::string&);
+  MultiSprite(const std::string&, double z = 1.0f);
   MultiSprite(const MultiSprite&);
   virtual ~MultiSprite() { } 
 
@@ -27,6 +27,7 @@ protected:
   float timeSinceLastFrame;
   int frameWidth;
   int frameHeight;
+  double zoom;
 
   virtual void advanceFrame(Uint32 ticks);
 };

@@ -14,11 +14,16 @@ public:
   SDL_Surface * getScreen() const { return screen; }
   ~IOManager() { 
     TTF_CloseFont(font);
+    TTF_CloseFont(gamefont);
   }
   SDL_Surface* loadAndSet(const string& filename, bool setcolorkey) const;
 
   void printMessageAt(const string& msg, Sint16 x, Sint16 y) const;
   void printMessageCenteredAt(const string& msg, Sint16 y) const;
+  
+  void printMessageAt(const string& msg, Sint16 x, Sint16 y, Uint32 fontnum);
+  void printMessageCenteredAt(const string& msg, Sint16 y,  Uint32 fontnum);
+  
   void printStringAfterMessage(const string&, Uint32 x, Uint32 y) const;
 
   template <typename T>
@@ -45,6 +50,10 @@ public:
   void buildString(SDL_Event);
   void clearString() { inputString = ""; }
   const string& getString() const { return inputString; }
+  SDL_Color getFontColor() {
+    return color;
+  }
+  void setfont(Uint32 fontnum);
 private:
   IOManager();
   IOManager(const IOManager&);
@@ -57,5 +66,7 @@ private:
   TTF_Font *font;
   SDL_Color color;
   string inputString;
+  TTF_Font *gamefont;
+  TTF_Font *currentfont;
 };
 #endif

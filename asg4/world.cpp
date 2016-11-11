@@ -19,6 +19,6 @@ void World::update() {
 
 /* Draw's regular worlds for parallax */
 void World::draw() const { 
-  frame->draw(viewX, viewY, 0, 0); 
+  frame->draw(viewX, viewY, (Sint16) 0, (Sint16) 0); 
   frame->draw(0, viewY, frameWidth-viewX, 0); 
 }
