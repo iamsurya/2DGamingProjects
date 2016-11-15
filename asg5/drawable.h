@@ -48,6 +48,7 @@ public:
   }
 
   virtual void explode() {std::cout<<"Drawable::Can\'t Explode";}
+  virtual bool checkCollision(const Drawable *) {std::cout<<"Drawable can't check for collision"; return 0;}
 private:
   std::string name;
   Vector2f position;

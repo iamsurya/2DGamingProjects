@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "drawable.h"
+#include "collisionStrategy.h"
 
 class ExplodingSprite;
 
@@ -18,7 +19,8 @@ public:
     return frames[currentFrame]; 
   }
   
-  void explode();
+  virtual void explode();
+  bool checkCollision(const Drawable * scary);
 
   int getDistance(const Drawable*) const;
 
@@ -35,9 +37,10 @@ protected:
   int frameWidth;
   int frameHeight;
   double zoom;
+  CollisionStrategy * collisionStrategy;
 
   virtual void advanceFrame(Uint32 ticks);
   MultiSprite& operator=(const MultiSprite&); // Explicityly disallow assignment operator and consturctors
-
+  
 };
 #endif

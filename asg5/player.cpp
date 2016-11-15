@@ -2,10 +2,19 @@
 #include "player.h"
 #include "viewport.h"
 #include "explodingSprite.h"
-#include "collisionStrategy.h"
+#include <iostream>
 
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
+}
+
+void Player::explode()
+{
+ if(explosion) return;
+ std::cout<<"Here";
+  Sprite * A = new Sprite(getName(), getPosition(), getVelocity(), getFrame());
+  explosion = new ExplodingSprite(*A);
+  delete A;
 }
 
 void Player::advanceFrame(Uint32 ticks){
@@ -23,6 +32,8 @@ void Player::advanceFrame(Uint32 ticks){
     mousex(0), mousey(0), drawline(false)    
     {
       X(Gamedata::getInstance().getXmlInt("player/startLoc/x")); Y(Gamedata::getInstance().getXmlInt("player/startLoc/x")); /* Need to set start location for player's Drawable. */
+      velocityX(Gamedata::getInstance().getXmlInt("player/speedX")); /* Start velocity */
+      velocityY(Gamedata::getInstance().getXmlInt("player/speedY")); /* can be set in MultiSprite.cpp's constructor, but that makes the code ugly. */
     }
 
 void Player::draw() const { 

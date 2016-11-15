@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "explodingSprite.h"
 #include <cmath>
+#include "scoreKeeper.h"
 
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -16,8 +17,13 @@ void MultiSprite::advanceFrame(Uint32 ticks) {
 void MultiSprite::explode()
 {
   if(explosion) return;
-  Sprite * A = new Sprite(getName(), getPosition(), getVelocity(), getFrame());
+  ScoreKeeper::getInstance().setScore(ScoreKeeper::getInstance().getScore()+100);
+  // TODO : Also change the X and Y location of the sprite
+  //Sprite * A = new Sprite(getName(), getPosition(), getVelocity(), getFrame());
+  Vector2f *v = new Vector2f(20,20);
+  Sprite * A = new Sprite(getName(), getPosition(), *v, getFrame());
   explosion = new ExplodingSprite(*A);
+  delete v;
   delete A;
 }
 
@@ -39,7 +45,7 @@ MultiSprite::MultiSprite( const std::string& name, double z) :
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
-  zoom(z)
+  zoom(z), collisionStrategy(new PerPixelCollisionStrategy)
 { }
 
 MultiSprite::MultiSprite(const MultiSprite& s) :
@@ -54,7 +60,7 @@ MultiSprite::MultiSprite(const MultiSprite& s) :
   timeSinceLastFrame( s.timeSinceLastFrame ),
   frameWidth( s.frameWidth ),
   frameHeight( s.frameHeight ),
-  zoom(s.zoom)
+  zoom(s.zoom), collisionStrategy(s.collisionStrategy)
   { }
 
 void MultiSprite::draw() const {
@@ -104,4 +110,12 @@ void MultiSprite::update(Uint32 ticks) {
 
 int MultiSprite::getDistance(const Drawable *obj) const { 
   return hypot(X()-obj->X(), Y()-obj->Y());
+}
+
+/* Player thinks bigger microbes are scary, delicious microbes think player is scary */
+bool MultiSprite::checkCollision(const Drawable * scary)
+{
+  bool collided = collisionStrategy->execute(*this, *scary);
+  if(collided) explode();
+  return collided;
 }

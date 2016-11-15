@@ -6,6 +6,8 @@
 #include "viewport.h"
 #include "player.h"
 #include "hud.h"
+#include "scoreKeeper.h"
+
 class Manager {
 public:
   Manager ();
@@ -17,7 +19,7 @@ private:
   const bool env;
   const IOManager& io;
   Clock& clock;
-
+  ScoreKeeper& scoreKeeper;
   SDL_Surface * const screen;
   World world;
   World blueb;
@@ -26,7 +28,10 @@ private:
 
   Viewport& viewport;
 
-  std::vector<Drawable*> sprites;
+  std::vector<Drawable*> backSprites; /* In the background, they don't do anything */
+  std::vector<Drawable*> scarySprites;  /* These bad creatures will eat us. Avoid them */
+  std::vector<Drawable*> deliciousSprites;  /* These delicious items are for us to eat! Muahahaha */
+
   int currentSprite;
 
   bool makeVideo;
@@ -38,6 +43,12 @@ private:
   Player player;
   Hud hud;
 
+  unsigned int score;
+  unsigned int numDelSprites;
+  unsigned int numEnemySprites;
+  unsigned int delSpritesDivider;
+  unsigned int enemySpritesDivider;
+  
   void draw() const;
   void update();
 

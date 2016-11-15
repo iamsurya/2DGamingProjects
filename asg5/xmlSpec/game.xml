@@ -88,7 +88,7 @@
     <size>9</size>
     <distance>100</distance>
   </chunk>
-  <file>images/purpfull.png</file>
+  <file>images/6.png</file>
   <startLoc x="120" y="140"/>
   <frames>26</frames>
   <frameInterval>100</frameInterval>
@@ -96,6 +96,80 @@
   <speedY>-100</speedY>
   <transparency>true</transparency>
 </purpchar>
+
+<Char0>
+  <chunk>
+    <size>9</size>
+    <distance>100</distance>
+  </chunk>
+  <file>images/ZeroFull.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>26</frames>
+  <frameInterval>150</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</Char0>
+
+<Char2>
+  <chunk>
+    <size>9</size>
+    <distance>100</distance>
+  </chunk>
+  <file>images/ThreeFull.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>24</frames>
+  <frameInterval>50</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</Char2>
+
+
+
+
+<Char4>
+  <file>images/pinkfull.png</file>
+  <startLoc x="200" y="400"/>
+  <frames>8</frames>
+  <frameInterval>150</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+  <chunk>
+    <size>20</size>
+    <distance>30</distance>
+  </chunk>
+</Char4>
+
+<Char5>
+  <chunk>
+    <size>9</size>
+    <distance>100</distance>
+  </chunk>
+  <file>images/purpfull.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>26</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</Char5>
+
+
+<Char6>
+  <chunk>
+    <size>9</size>
+    <distance>100</distance>
+  </chunk>
+  <file>images/6.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>26</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</Char6>
 
 
 <player>
@@ -115,6 +189,10 @@
     <size>20</size>
     <distance>30</distance>
   </chunk>
+  <numDelSprites>10</numDelSprites>>
+  <numEnemySprites>10</numEnemySprites>
+  <delSpritesDivider>100</delSpritesDivider>
+  <enemySpritesDivider>100</enemySpritesDivider>
 </player>
 
 <pinkchar>
@@ -126,8 +204,8 @@
   <speedY>-100</speedY>
   <transparency>true</transparency>
   <chunk>
-    <size>14</size>
-    <distance>200</distance>
+    <size>20</size>
+    <distance>30</distance>
   </chunk>
 </pinkchar>
 
@@ -184,11 +262,19 @@
 </bothud>
 
 <avoidtext>
-<text>Avoid: Purple Enemies</text>
+<text>Avoid: </text>
 <xloc>600</xloc>
 <yloc>17</yloc>
 <fontnum>0</fontnum>
 </avoidtext>
+
+<scoretext>
+<text>Score: </text>
+<xloc>700</xloc>
+<yloc>17</yloc>
+<fontnum>0</fontnum>
+</scoretext>
+
 
 <helptext>
 <text>Use asdw to move, mouse to aim and shoot, F1 to toggle HUD, F4 for frames</text>

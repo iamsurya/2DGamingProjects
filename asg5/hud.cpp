@@ -1,5 +1,6 @@
 #include "hud.h"
 #include "clock.h"
+#include "scoreKeeper.h"
 Hud::Hud(): gdata(Gamedata::getInstance()),
             screen(IOManager::getInstance().getScreen()),
             TOPLINE(gdata.getXmlInt("tophud/lineYloc")), BOTLINE(gdata.getXmlInt("bothud/lineYloc")),
@@ -19,6 +20,11 @@ void Hud::draw() const
 
   /* Show text for enemies to avoid */
   IOManager::getInstance().printMessageAt(gdata.getXmlStr("avoidtext/text").c_str(), gdata.getXmlInt("avoidtext/xloc"), gdata.getXmlInt("avoidtext/yloc"), 0);
+
+  /* Show the Score */
+  IOManager::getInstance()
+      .printMessageValueAt(gdata.getXmlStr("scoretext/text") + " ", ScoreKeeper::getInstance().getScore(), gdata.getXmlInt("scoretext/xloc"), gdata.getXmlInt("scoretext/yloc"));
+
 
 
   /* Bottom HUD things to show */

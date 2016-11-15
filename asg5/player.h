@@ -6,15 +6,18 @@
 #include "ioManager.h"
 
 class ExplodingSprite;
-class CollisionStrategy;
 
 class Player : public MultiSprite {
 public:
     Player(const std::string &);
+    ~Player(){
+        delete collisionStrategy;
+    }
     void draw() const;
     void update(Uint32 ticks);
     void handleEvent(const SDL_KeyboardEvent *event);
     void handleMouseEvent(const SDL_MouseMotionEvent *event);
+    void explode();
 protected:
 void advanceFrame(Uint32 ticks);
 int accelerationX;
@@ -26,7 +29,6 @@ Sint32 mousey;
 mutable bool drawline;
 
 private:
-    CollisionStrategy * collisionStrategy;
     Player(const Player&);
     Player & operator=(const Player&);
 };
