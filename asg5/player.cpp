@@ -8,6 +8,12 @@ template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
 
+Player & Player::getInstance()
+{
+  static Player playerInstance("player");
+  return playerInstance;
+}
+
 void Player::explode()
 {
  if(explosion) return;

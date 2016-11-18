@@ -9,7 +9,7 @@ class ExplodingSprite;
 
 class Player : public MultiSprite {
 public:
-    Player(const std::string &);
+    static Player & getInstance();
     ~Player(){
         delete collisionStrategy;
     }
@@ -29,6 +29,7 @@ Sint32 mousey;
 mutable bool drawline;
 
 private:
+    Player(const std::string &);
     Player(const Player&);
     Player & operator=(const Player&);
 };

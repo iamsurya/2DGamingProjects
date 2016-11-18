@@ -97,12 +97,15 @@
   <transparency>true</transparency>
 </purpchar>
 
+<numChars>7</numChars>
+<currentChar>Char5</currentChar>
+
 <Char0>
   <chunk>
-    <size>9</size>
-    <distance>100</distance>
+    <size>20</size>
+    <distance>10</distance>
   </chunk>
-  <file>images/ZeroFull.png</file>
+  <file>images/0.png</file>
   <startLoc x="120" y="140"/>
   <frames>26</frames>
   <frameInterval>150</frameInterval>
@@ -111,43 +114,69 @@
   <transparency>true</transparency>
 </Char0>
 
-<Char2>
+<Char1>
   <chunk>
-    <size>9</size>
-    <distance>100</distance>
+    <size>20</size>
+    <distance>10</distance>
   </chunk>
-  <file>images/ThreeFull.png</file>
+  <file>images/1.png</file>
   <startLoc x="120" y="140"/>
   <frames>24</frames>
-  <frameInterval>50</frameInterval>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</Char1>
+
+<Char2>
+  <chunk>
+    <size>20</size>
+    <distance>10</distance>
+  </chunk>
+  <file>images/2.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>24</frames>
+  <frameInterval>3000</frameInterval>
   <speedX>-100</speedX>
   <speedY>-100</speedY>
   <transparency>true</transparency>
 </Char2>
 
 
-
+<Char3>
+  <chunk>
+    <size>20</size>
+    <distance>10</distance>
+  </chunk>
+  <file>images/3.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>26</frames>
+  <frameInterval>100</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</Char3>
 
 <Char4>
-  <file>images/pinkfull.png</file>
+  <file>images/4.png</file>
   <startLoc x="200" y="400"/>
   <frames>8</frames>
-  <frameInterval>150</frameInterval>
+  <frameInterval>300</frameInterval>
   <speedX>-100</speedX>
   <speedY>-100</speedY>
   <transparency>true</transparency>
   <chunk>
     <size>20</size>
-    <distance>30</distance>
+    <distance>10</distance>
   </chunk>
 </Char4>
 
 <Char5>
   <chunk>
-    <size>9</size>
-    <distance>100</distance>
+    <size>30</size>
+    <distance>10</distance>
   </chunk>
-  <file>images/purpfull.png</file>
+  <file>images/5.png</file>
   <startLoc x="120" y="140"/>
   <frames>26</frames>
   <frameInterval>100</frameInterval>
@@ -159,8 +188,8 @@
 
 <Char6>
   <chunk>
-    <size>9</size>
-    <distance>100</distance>
+    <size>40</size>
+    <distance>10</distance>
   </chunk>
   <file>images/6.png</file>
   <startLoc x="120" y="140"/>

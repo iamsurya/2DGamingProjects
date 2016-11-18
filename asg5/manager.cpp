@@ -14,9 +14,9 @@ Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
   // TODO: Delete all sprites
-  for (unsigned i = 0; i < backSprites.size(); ++i) {
-    delete backSprites[i];
-  }
+//  for (unsigned i = 0; i < backSprites.size(); ++i) {
+//    delete backSprites[i];
+//  }
 }
 
 Manager::Manager() :
@@ -30,22 +30,15 @@ Manager::Manager() :
   redb("redb", Gamedata::getInstance().getXmlInt("redb/factor") ),
   layergreensmall("LayerGreenSmall", Gamedata::getInstance().getXmlInt("LayerGreenSmall/factor") ),
   viewport( Viewport::getInstance() ),
-  backSprites(),
-  scarySprites(),
-  deliciousSprites(),
   currentSprite(0),
   makeVideo( false ),
   frameCount( 0 ),
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ),
-  player("player"),
-  hud(),
-  score(0),
-  numDelSprites(Gamedata::getInstance().getXmlInt("player/numDelSprites")),
-  numEnemySprites(Gamedata::getInstance().getXmlInt("player/numEnemySprites")),
-  delSpritesDivider(Gamedata::getInstance().getXmlInt("player/delSpritesDivider")),
-  enemySpritesDivider(Gamedata::getInstance().getXmlInt("player/enemySpritesDivider"))
+  player(Player::getInstance()),
+  monsterManager(MonsterManager::getInstance()),
+  hud()
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -57,25 +50,6 @@ Manager::Manager() :
   /* Sprite * A = new Sprite("star");
   Sprite B = new Sprite("greenorb"); 
   B = A; */
-  for(int i = 0; i<4; ++i)
-  {
-    backSprites.push_back( new MultiSprite("pinkchar", 0.35) );
-    backSprites.push_back( new TwoWaySprite("purpchar", 0.35) );  
-  }
-  for(int i = 0; i<4; ++i)
-  {
-    backSprites.push_back( new MultiSprite("pinkchar", 0.6) );
-    backSprites.push_back( new TwoWaySprite("purpchar", 0.6) );  
-  }
-  for(int i = 0; i<8; ++i)
-  {
-  scarySprites.push_back( new TwoWaySprite("purpchar", 1) );
-  }
-
-  for(int i = 0; i<8; ++i)
-  {
-  deliciousSprites.push_back( new MultiSprite("pinkchar", 1) );
-  }
 
   viewport.setObjectToTrack(&player);
 }
@@ -86,16 +60,7 @@ void Manager::draw() const {
   redb.draw();
   layergreensmall.draw();
 
-  for (unsigned int i = 0; i < backSprites.size(); ++i) {
-    backSprites[i]->draw();
-  }
-  for(unsigned int i = 0; i < scarySprites.size(); ++i) {
-    scarySprites[i]->draw();
-  }
-  for(unsigned int i = 0; i < deliciousSprites.size(); ++i) {
-    deliciousSprites[i]->draw();
-  }
-
+  monsterManager.draw();
   player.draw();
   clock.display();
 
@@ -116,14 +81,13 @@ void Manager::makeFrame() {
 }
 
 void Manager::switchSprite() {
-  currentSprite = (currentSprite+1) % backSprites.size();
-  viewport.setObjectToTrack(backSprites[currentSprite]);
+ // currentSprite = (currentSprite+1) % backSprites.size();
+ // viewport.setObjectToTrack(backSprites[currentSprite]);
 }
 
 void Manager::update() {
   ++(clock);
   Uint32 ticks = clock.getElapsedTicks();
-
   static unsigned int lastSeconds = clock.getSeconds();
   if ( clock.getSeconds() - lastSeconds == 5 ) {
     lastSeconds = clock.getSeconds();
@@ -138,19 +102,7 @@ void Manager::update() {
   redb.update();
   layergreensmall.update();
   player.update(ticks);
-  for (unsigned int i = 0; i < backSprites.size(); ++i) {
-    backSprites[i]->update(ticks);
-  }
-  for(unsigned int i = 0; i < scarySprites.size(); ++i) {
-    scarySprites[i]->update(ticks);
-    player.checkCollision(scarySprites[i]);
-  }
-  for(unsigned int i = 0; i < deliciousSprites.size(); ++i) {
-    deliciousSprites[i]->update(ticks);
-    deliciousSprites[i]->checkCollision(&player); 
-    }
-  
-
+  monsterManager.update(ticks);
   hud.update();
   viewport.update(); // always update viewport last
 }

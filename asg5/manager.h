@@ -7,7 +7,7 @@
 #include "player.h"
 #include "hud.h"
 #include "scoreKeeper.h"
-
+#include "monsterManager.h"
 class Manager {
 public:
   Manager ();
@@ -27,11 +27,7 @@ private:
   World layergreensmall;
 
   Viewport& viewport;
-
-  std::vector<Drawable*> backSprites; /* In the background, they don't do anything */
-  std::vector<Drawable*> scarySprites;  /* These bad creatures will eat us. Avoid them */
-  std::vector<Drawable*> deliciousSprites;  /* These delicious items are for us to eat! Muahahaha */
-
+  
   int currentSprite;
 
   bool makeVideo;
@@ -40,14 +36,9 @@ private:
   const std::string title;
   const int frameMax;
 
-  Player player;
+  Player& player;
+  MonsterManager& monsterManager;
   Hud hud;
-
-  unsigned int score;
-  unsigned int numDelSprites;
-  unsigned int numEnemySprites;
-  unsigned int delSpritesDivider;
-  unsigned int enemySpritesDivider;
   
   void draw() const;
   void update();
