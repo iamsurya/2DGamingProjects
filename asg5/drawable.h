@@ -47,9 +47,10 @@ public:
     throw std::string("No collidedWith");  
   }
 
-  virtual void explode() {std::cout<<"Drawable::Can\'t Explode";}
-  virtual bool checkCollision(const Drawable *) {std::cout<<"Drawable can't check for collision"; return 0;}
-private:
+  virtual void explode() const {std::cout<<"Drawable::Can\'t Explode " + Drawable::getName();}
+  virtual bool checkCollision(const Drawable * scary) {std::cout<<"Drawable can't check for collision"<<Drawable::getName()<<" "<<scary->getName()<<std::endl; return 0;}
+  virtual bool isNotExploding() const {std::cout<<"Drawble doesn't Explode, stupid!"<<std::endl; return true;}
+
   std::string name;
   Vector2f position;
   Vector2f velocity;

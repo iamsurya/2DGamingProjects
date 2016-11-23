@@ -3,15 +3,14 @@
 #include <string>
 #include <vector>
 #include "drawable.h"
-#include "collisionStrategy.h"
 
 class ExplodingSprite;
 
 class MultiSprite : public Drawable {
 public:
-  MultiSprite(const std::string&, double z = 1.0f);
+  MultiSprite(const std::string&);
   MultiSprite(const MultiSprite&);
-  virtual ~MultiSprite() { } 
+  virtual ~MultiSprite(); 
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
@@ -21,11 +20,11 @@ public:
   
   virtual void explode();
   bool checkCollision(const Drawable * scary);
-
+  bool isDestroyed() const;
   int getDistance(const Drawable*) const;
 
 protected:
-  ExplodingSprite * explosion; 
+  ExplodingSprite * explosion; // Allows us to make explode() const;
   const std::vector<Frame *> frames;
   int worldWidth;
   int worldHeight;
@@ -36,11 +35,11 @@ protected:
   float timeSinceLastFrame;
   int frameWidth;
   int frameHeight;
-  double zoom;
-  CollisionStrategy * collisionStrategy;
+  bool destroyed;
+  void incrementScore(unsigned int) const;
 
   virtual void advanceFrame(Uint32 ticks);
   MultiSprite& operator=(const MultiSprite&); // Explicityly disallow assignment operator and consturctors
-  
+  bool isNotExploding() const;
 };
 #endif

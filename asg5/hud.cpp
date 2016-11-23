@@ -1,6 +1,8 @@
 #include "hud.h"
 #include "clock.h"
 #include "scoreKeeper.h"
+#include "monsterManager.h"
+
 Hud::Hud(): gdata(Gamedata::getInstance()),
             screen(IOManager::getInstance().getScreen()),
             TOPLINE(gdata.getXmlInt("tophud/lineYloc")), BOTLINE(gdata.getXmlInt("bothud/lineYloc")),
@@ -39,6 +41,22 @@ void Hud::draw() const
 
     IOManager::getInstance()
       .printMessageValueAt("Elapsed Seconds: ", Clock::getInstance().getTotalTicks()/1000, gdata.getXmlInt("fpstext/loc/x") + 60, gdata.getXmlInt("fpstext/loc/y"));
+
+    IOManager::getInstance()
+      .printMessageValueAt(gdata.getXmlStr("tophud/delNum/text"), MonsterManager::getInstance().getMaxDelicious(),
+                            gdata.getXmlInt("tophud/delNum/x"), gdata.getXmlInt("tophud/delNum/y"));
+    
+    IOManager::getInstance()
+      .printMessageValueAt(gdata.getXmlStr("tophud/scaryNum/text"), MonsterManager::getInstance().getMaxScary(),
+                            gdata.getXmlInt("tophud/scaryNum/x"), gdata.getXmlInt("tophud/scaryNum/y"));
+
+  IOManager::getInstance()
+      .printMessageValueAt(gdata.getXmlStr("tophud/delAct/text"), MonsterManager::getInstance().getNumDelicious(),
+                            gdata.getXmlInt("tophud/delAct/x"), gdata.getXmlInt("tophud/delAct/y"));
+    
+    IOManager::getInstance()
+      .printMessageValueAt(gdata.getXmlStr("tophud/scaryAct/text"), MonsterManager::getInstance().getNumScary(),
+                            gdata.getXmlInt("tophud/scaryAct/x"), gdata.getXmlInt("tophud/scaryAct/y"));
 
 
     // Bottom HUD

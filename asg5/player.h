@@ -1,32 +1,30 @@
 #ifndef PLAYER__H
 #define PLAYER__H
-#include "multisprite.h"
+#include "TwoWaySprite.h"
 #include "gamedata.h"
 #include "aaline.h"
 #include "ioManager.h"
 
 class ExplodingSprite;
 
-class Player : public MultiSprite {
+class Player : public TwoWaySprite {
 public:
     static Player & getInstance();
     ~Player(){
-        delete collisionStrategy;
+      //  delete collisionStrategy;
     }
-    void draw() const;
     void update(Uint32 ticks);
     void handleEvent(const SDL_KeyboardEvent *event);
     void handleMouseEvent(const SDL_MouseMotionEvent *event);
-    void explode();
+
 protected:
-void advanceFrame(Uint32 ticks);
 int accelerationX;
 int accelerationY;
 SDL_Surface * screen;
 const Uint32 aimcolor;
 Sint32 mousex;
 Sint32 mousey;
-mutable bool drawline;
+bool drawline;
 
 private:
     Player(const std::string &);

@@ -101,8 +101,8 @@ void Manager::update() {
   blueb.update();
   redb.update();
   layergreensmall.update();
-  player.update(ticks);
   monsterManager.update(ticks);
+  player.update(ticks);
   hud.update();
   viewport.update(); // always update viewport last
 }
@@ -119,7 +119,8 @@ void Manager::play() {
      
 
           if (keystate[SDLK_9]) {
-          switchSprite();
+          //switchSprite();
+          player.explode();
           }
 
           if (keystate[SDLK_1]) {
@@ -128,6 +129,9 @@ void Manager::play() {
           
           if (keystate[SDLK_2]) {
           scoreKeeper.setScore(scoreKeeper.getScore() - 100);
+          }
+          if (keystate[SDLK_r]) {
+          monsterManager.reset();
           }
       /* Make frames for submission */
       if (keystate[SDLK_F4] && !makeVideo) {
@@ -156,7 +160,7 @@ void Manager::play() {
     }
 
     player.handleEvent(&event.key);
-    player.handleMouseEvent(&event.motion);
+    //player.handleMouseEvent(&event.motion);
     draw();
     update();
   }

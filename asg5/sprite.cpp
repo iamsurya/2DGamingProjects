@@ -88,7 +88,7 @@ Sprite & Sprite::operator=(const Sprite &rhs)
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
 
-  delete [] oldframe;
+  delete oldframe;
 
   return *this;
 }

@@ -8,31 +8,13 @@ template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
 
-Player & Player::getInstance()
+Player& Player::getInstance()
 {
   static Player playerInstance("player");
   return playerInstance;
 }
 
-void Player::explode()
-{
- if(explosion) return;
- std::cout<<"Here";
-  Sprite * A = new Sprite(getName(), getPosition(), getVelocity(), getFrame());
-  explosion = new ExplodingSprite(*A);
-  delete A;
-}
-
-void Player::advanceFrame(Uint32 ticks){
-    timeSinceLastFrame += ticks;
-	if (timeSinceLastFrame > frameInterval) {
-    if(velocityX() > 0) currentFrame = (currentFrame+1) % (numberOfFrames/2);
-    else if(velocityX() <0) currentFrame = (numberOfFrames / 2 ) + ((currentFrame+1) % (numberOfFrames/2));
-		timeSinceLastFrame = 0;
-	}
-}
-
-    Player::Player(const std::string & name) : MultiSprite(name), accelerationX(0), accelerationY(0),
+    Player::Player(const std::string & name) : TwoWaySprite(name), accelerationX(0), accelerationY(0),
     screen(IOManager::getInstance().getScreen()),
     aimcolor(SDL_MapRGB(screen->format,Gamedata::getInstance().getXmlInt("player/aimred"),Gamedata::getInstance().getXmlInt("player/aimgreen"),Gamedata::getInstance().getXmlInt("player/aimblue"))),
     mousex(0), mousey(0), drawline(false)    
@@ -42,37 +24,15 @@ void Player::advanceFrame(Uint32 ticks){
       velocityY(Gamedata::getInstance().getXmlInt("player/speedY")); /* can be set in MultiSprite.cpp's constructor, but that makes the code ugly. */
     }
 
-void Player::draw() const { 
-  if(explosion)
-  {
-    explosion->draw();
-    return;
-  } 
-
-  Uint32 x = X() - Viewport::getInstance().X() + (frames[currentFrame]->getWidth()/2);
-  Uint32 y = Y() - Viewport::getInstance().Y() + (frames[currentFrame]->getHeight()/2);
-  
-  if(drawline)
-  {
-  Draw_AALine(screen, x,y, mousex,mousey, Gamedata::getInstance().getXmlInt("player/aimerthickness"), aimcolor);
-  drawline = false;
-  }
-
-  x = static_cast<Uint32>(X());
-  y = static_cast<Uint32>(Y());
-  frames[currentFrame]->draw(x, y, 0, zoom);
-
-}
-
 void Player::update(Uint32 ticks)
 {
   if(explosion)
   {
     explosion->update(ticks);
-    
     if((explosion->chunkCount()) == 0){
         delete explosion;
         explosion = NULL;
+        destroyed = true;
     }
     return;
   }
@@ -167,4 +127,3 @@ void Player::handleEvent(const SDL_KeyboardEvent *event)
         }
       }
 }
-

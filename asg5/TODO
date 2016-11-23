@@ -1,1 +1,32 @@
-TODO: Improve 2.png animation
+TODO 1: Improve 2.png animation
+TODO 2: Check bounds in constructor of monsterManager namesLists. If in the XML Number of Init is greater than total the program crashes.
+TODO 2.5: Move code to Init() so a reset function can call it.
+TODO 3: Fix velocity randomization multisprite constructor
+TODO 5: Player should lose lives.
+TODO 7: SetScore 100 to avoid segfault.
+
+
+NEXT: YOU WON SHOULD DISPLAY AFTER SCARYLIST IS EMPTY
+
+==1638== 945 errors in context 1 of 1:
+==1638== Invalid read of size 4
+==1638==    at 0x80534DA: ExtractSurface::getpixel(SDL_Surface*, int, int) const (extractSurface.cpp:54)
+==1638==    by 0x80533C3: ExtractSurface::get(SDL_Surface*, int, int, int, int) const (extractSurface.cpp:28)
+==1638==    by 0x8051514: ExplodingSprite::makeChunks(unsigned int) (explodingSprite.cpp:68)
+==1638==    by 0x8050FDB: ExplodingSprite::ExplodingSprite(Sprite const&) (explodingSprite.cpp:14)
+==1638==    by 0x8061243: MultiSprite::explode() const (multisprite.cpp:37)
+==1638==    by 0x8061D03: MultiSprite::checkCollision(Drawable const*) (multisprite.cpp:148)
+==1638==    by 0x805FE77: MonsterManager::update(unsigned int) (monsterManager.cpp:205)
+==1638==    by 0x805EE64: Manager::update() (manager.cpp:105)
+==1638==    by 0x805F08E: Manager::play() (manager.cpp:164)
+==1638==    by 0x805E23E: main (main.cpp:7)
+==1638==  Address 0x529a28c is 0 bytes after a block of size 7,140 alloc'd
+==1638==    at 0x402A17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+==1638==    by 0x407A645: SDL_CreateRGBSurface (in /usr/lib/i386-linux-gnu/libSDL-1.2.so.0.11.4)
+==1638==    by 0x805336C: ExtractSurface::get(SDL_Surface*, int, int, int, int) const (extractSurface.cpp:20)
+==1638==    by 0x8054252: FrameFactory::getFrames(std::string const&) (frameFactory.cpp:81)
+==1638==    by 0x8061489: MultiSprite::MultiSprite(std::string const&, double) (multisprite.cpp:61)
+==1638==    by 0x8063E89: Player::Player(std::string const&) (player.cpp:29)
+==1638==    by 0x8063CFD: Player::getInstance() (player.cpp:13)
+==1638==    by 0x805E7EB: Manager::Manager() (manager.cpp:39)
+==1638==    by 0x805E232: main (main.cpp:6)

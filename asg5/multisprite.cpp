@@ -5,6 +5,8 @@
 #include "explodingSprite.h"
 #include <cmath>
 #include "scoreKeeper.h"
+#include "MonsterManager.h"
+#include "collStrat.h"
 
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -14,23 +16,43 @@ void MultiSprite::advanceFrame(Uint32 ticks) {
 	}
 }
 
+MultiSprite::~MultiSprite()
+{
+  if(explosion) {
+    delete explosion; /* Delete only if program is quit while exploding */
+    explosion = NULL;
+    }
+}
+
+void MultiSprite::incrementScore(unsigned int increment) const
+{
+  unsigned int newScore = ScoreKeeper::getInstance().getScore()+increment;
+  ScoreKeeper::getInstance().setScore(newScore);
+  if((newScore != 0) && (newScore%1000) == 0) MonsterManager::getInstance().nextLevel();
+  
+}
+
 void MultiSprite::explode()
 {
-  if(explosion) return;
-  ScoreKeeper::getInstance().setScore(ScoreKeeper::getInstance().getScore()+100);
-  // TODO : Also change the X and Y location of the sprite
-  //Sprite * A = new Sprite(getName(), getPosition(), getVelocity(), getFrame());
+  if(explosion != NULL) return;
+  std::cout<<"Exploding "<<getName()<<std::endl;
+  
+  if(getName() != "player") incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));
   Vector2f *v = new Vector2f(20,20);
-  Sprite * A = new Sprite(getName(), getPosition(), *v, getFrame());
+  Sprite *A = new Sprite(getName(), getPosition(), *v, getFrame());
   explosion = new ExplodingSprite(*A);
   delete v;
   delete A;
+  std::cout<<"New EXPSprite "<<getName()<<std::endl;
+  
 }
 
-MultiSprite::MultiSprite( const std::string& name, double z) :
+
+// TODO 3 Fix velocity randomization
+MultiSprite::MultiSprite( const std::string& name) :
   Drawable(name, 
-           Vector2f(rand()%2000,//Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
-                    rand()%2000),//Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
+           Vector2f(rand()%Gamedata::getInstance().getXmlInt("world/width"), 
+                    rand()%Gamedata::getInstance().getXmlInt("world/height")), 
            Vector2f(((rand()%100)+120)*((rand()%2) - 1 )+50,//*Gamedata::getInstance().getXmlInt(name+"/speedX"),
                     ((rand()%100)+120)*((rand()%2) - 1 )+50)//*Gamedata::getInstance().getXmlInt(name+"/speedY"))
            ),
@@ -38,19 +60,18 @@ MultiSprite::MultiSprite( const std::string& name, double z) :
   frames( FrameFactory::getInstance().getFrames(name) ),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-
   currentFrame(0),
   numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
   frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval") ),
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
-  zoom(z), collisionStrategy(new PerPixelCollisionStrategy)
+  destroyed(false)
 { }
 
 MultiSprite::MultiSprite(const MultiSprite& s) :
   Drawable(s), 
-  explosion(NULL),
+  explosion(s.explosion),
   frames(s.frames),
   worldWidth( s.worldWidth ),
   worldHeight( s.worldHeight ),
@@ -60,36 +81,43 @@ MultiSprite::MultiSprite(const MultiSprite& s) :
   timeSinceLastFrame( s.timeSinceLastFrame ),
   frameWidth( s.frameWidth ),
   frameHeight( s.frameHeight ),
-  zoom(s.zoom), collisionStrategy(s.collisionStrategy)
-  { }
+  destroyed(s.destroyed)
+  {}
 
 void MultiSprite::draw() const {
-  if(explosion)
+  if(explosion != NULL)
   {
     explosion->draw();
     return;
   } 
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
-  frames[currentFrame]->draw(x, y, 0, zoom);
+  frames[currentFrame]->draw(x, y);
+}
+
+bool MultiSprite::isDestroyed() const{
+  return destroyed;
 }
 
 void MultiSprite::update(Uint32 ticks) { 
+  //std::cout<<"Update "<<getName()<<std::endl;
   
-  if(explosion)
+  if(explosion != NULL)
   {
     explosion->update(ticks);
     
     if((explosion->chunkCount()) == 0){
+        std::cout<<"deleting explosion "<<getName()<<std::endl;
         delete explosion;
         explosion = NULL;
+        destroyed = true;
     }
     return;
   }
 
   advanceFrame(ticks);
 
-  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001 * zoom;
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
 
   if ( Y() < 0) {
@@ -112,10 +140,20 @@ int MultiSprite::getDistance(const Drawable *obj) const {
   return hypot(X()-obj->X(), Y()-obj->Y());
 }
 
-/* Player thinks bigger microbes are scary, delicious microbes think player is scary */
+
+
+bool MultiSprite::isNotExploding() const{
+  return (explosion == NULL); //(explosion == NULL); /* Returns true if not exploding */
+}
+
+/* This only checks for delicious Sprite */
 bool MultiSprite::checkCollision(const Drawable * scary)
 {
-  bool collided = collisionStrategy->execute(*this, *scary);
+  if(explosion) return destroyed;
+  if( scary->isNotExploding() )/* Do this only if scary sprite is NOT exploding )  */
+  {
+  bool collided = CollStrat::getInstance().execute(*this,*scary);
   if(collided) explode();
-  return collided;
+  }
+  return destroyed;
 }

@@ -4,7 +4,7 @@
 
 class TwoWaySprite : public MultiSprite {
 public:
-    TwoWaySprite(const std::string &, double zoom = 1.0f);
+    TwoWaySprite(const std::string &);
 protected:
 void advanceFrame(Uint32 ticks);
 };
