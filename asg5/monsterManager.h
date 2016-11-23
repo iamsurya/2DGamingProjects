@@ -13,6 +13,7 @@ public:
     unsigned int getMaxDelicious() const {return numDelSprites;}
     unsigned int getMaxScary() const {return numScarySprites;}
     void reset();
+    std::string getWinText() const {return winText;}
 private:
     ~MonsterManager();
     void initNameLists();
@@ -39,5 +40,5 @@ private:
     unsigned int enemySpritesDivider;
 
     Player& player;
-    bool banana;
+    std::string winText;
 };

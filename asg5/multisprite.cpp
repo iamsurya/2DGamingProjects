@@ -35,7 +35,6 @@ void MultiSprite::incrementScore(unsigned int increment) const
 void MultiSprite::explode()
 {
   if(explosion != NULL) return;
-  std::cout<<"Exploding "<<getName()<<std::endl;
   
   if(getName() != "player") incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));
   Vector2f *v = new Vector2f(20,20);
@@ -43,7 +42,6 @@ void MultiSprite::explode()
   explosion = new ExplodingSprite(*A);
   delete v;
   delete A;
-  std::cout<<"New EXPSprite "<<getName()<<std::endl;
   
 }
 
@@ -107,7 +105,6 @@ void MultiSprite::update(Uint32 ticks) {
     explosion->update(ticks);
     
     if((explosion->chunkCount()) == 0){
-        std::cout<<"deleting explosion "<<getName()<<std::endl;
         delete explosion;
         explosion = NULL;
         destroyed = true;

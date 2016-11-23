@@ -2,6 +2,8 @@
 #include "gamedata.h"
 #include "time.h"
 #include "scorekeeper.h"
+#include "ioManager.h"
+
 /* Stackoverflow for converting integer to string so that I can read monster names from XML */
 /* http://stackoverflow.com/a/4668799/4734557 */
 template<typename T>
@@ -36,7 +38,7 @@ MonsterManager::MonsterManager() :
   delSpritesDivider(Gamedata::getInstance().getXmlInt("delSpritesDivider")),
   enemySpritesDivider(Gamedata::getInstance().getXmlInt("enemySpritesDivider")),
   player(Player::getInstance()),
-  banana(false)
+  winText(" ")
 {
   srand(time(NULL));
   initNameLists();
@@ -105,7 +107,6 @@ while(nameptr != nameList.end())
 
 void MonsterManager::nextLevel()
 {
-  std::cout<<"NEXT LEVEL"<<std::endl;
   if(scaryNames.size() > 0)
   {
     /* Move all scarySprites that match the first scaryName to deliciousSprites */
@@ -131,9 +132,13 @@ void MonsterManager::nextLevel()
     if( unusedNames.size() > 0 )
     {
     // Move an Unused Name to scaryName
-    std::cout<<"Moving "<<*( unusedNames.begin() )<<" to Scary"<<std::endl;
     scaryNames.push_back(( *( unusedNames.begin() ) ));
     unusedNames.pop_front();
+    }
+
+    if(scaryNames.size() == 0)
+    {
+        winText = "YOU WON!";
     }
     /* DEBUG 
     std::cout<<"\nDelicious: ";
@@ -145,10 +150,6 @@ void MonsterManager::nextLevel()
     std::cout<<"\nUnused: ";
     printNames(unusedNames);*/
 
-  }
-  else
-  {
-    std::cout<<"YOU WON!!!!OMGOMGOMG"<<std::endl;
   }
 }
 
@@ -170,14 +171,10 @@ void MonsterManager::updateMonsterCounts()
 void MonsterManager::updateMonsters(std::list<Drawable *> & itemlist, Uint32 ticks)
 {
   std::list<Drawable *>::iterator ptr = itemlist.begin();
-  unsigned int x = 0;
   while(ptr != itemlist.end())
   {
     (*ptr)->update(ticks);
     ptr++;
-    x++;
-    //std::cout<<"Q "<<x<<std::endl;
-    if(x > 99) exit(0);
   }
 }
 
@@ -185,23 +182,10 @@ void MonsterManager::updateMonsters(std::list<Drawable *> & itemlist, Uint32 tic
 void MonsterManager::update(Uint32 ticks)
 {
   updateMonsterCounts();
-
-  unsigned int x = 0;
   
   std::list<Drawable *>::iterator ptr = scarySprites.begin();
   
   updateMonsters(deliciousSprites, ticks);
-
-  while(ptr != scarySprites.end())
-  {
-    //std::cout<<"P "<<(*ptr)->getName()<<" "<<x<<std::endl;
-    ptr++;
-    x++;
-
-    if(x>99) exit(1);
-  }
-
-
   updateMonsters(scarySprites, ticks);
 
   /* Check for explosions now and eaten sprites*/
@@ -220,15 +204,10 @@ void MonsterManager::update(Uint32 ticks)
 
   /* scarySprites should hurt the player */ 
   ptr = scarySprites.begin();
-  x = 0;
   while(ptr != scarySprites.end())
   {
-    //std::cout<<"C "<<(*ptr)->getName()<<" "<<x<<" "<<player.getName()<<std::endl;
     player.checkCollision(*ptr);
     ptr++;
-    x++;
-    
-    if(x>99) exit(1);
   }
 
 }
@@ -249,7 +228,6 @@ void MonsterManager::reset()
   /* delete all sprites */
   deleteSprites(deliciousSprites);
   deleteSprites(scarySprites);
-  /* delete scarySprites */
   
   deliciousSprites.clear();
   scarySprites.clear();
