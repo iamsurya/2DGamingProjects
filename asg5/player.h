@@ -1,6 +1,6 @@
 #ifndef PLAYER__H
 #define PLAYER__H
-#include "TwoWaySprite.h"
+#include "twowaysprite.h"
 #include "gamedata.h"
 #include "aaline.h"
 #include "ioManager.h"

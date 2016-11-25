@@ -5,7 +5,7 @@
 #include "explodingSprite.h"
 #include <cmath>
 #include "scoreKeeper.h"
-#include "MonsterManager.h"
+#include "monsterManager.h"
 #include "collStrat.h"
 
 void MultiSprite::advanceFrame(Uint32 ticks) {
@@ -19,7 +19,7 @@ void MultiSprite::advanceFrame(Uint32 ticks) {
 MultiSprite::~MultiSprite()
 {
   if(explosion) {
-    delete explosion; /* Delete only if program is quit while exploding */
+    delete explosion; /* Delete only if program is quit while exploding (multisprite is destroyed while exploding) */
     explosion = NULL;
     }
 }
@@ -36,13 +36,13 @@ void MultiSprite::explode()
 {
   if(explosion != NULL) return;
   
-  if(getName() != "player") incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));
-  Vector2f *v = new Vector2f(20,20);
-  Sprite *A = new Sprite(getName(), getPosition(), *v, getFrame());
-  explosion = new ExplodingSprite(*A);
-  delete v;
-  delete A;
-  
+  if(getName() != "player"){
+      incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));
+  } 
+  Vector2f v(20,20);
+  Sprite A(getName(), getPosition(), v, getFrame());
+  explosion = new ExplodingSprite(A); 
+  return; 
 }
 
 
@@ -51,8 +51,8 @@ MultiSprite::MultiSprite( const std::string& name) :
   Drawable(name, 
            Vector2f(rand()%Gamedata::getInstance().getXmlInt("world/width"), 
                     rand()%Gamedata::getInstance().getXmlInt("world/height")), 
-           Vector2f(((rand()%100)+120)*((rand()%2) - 1 )+50,//*Gamedata::getInstance().getXmlInt(name+"/speedX"),
-                    ((rand()%100)+120)*((rand()%2) - 1 )+50)//*Gamedata::getInstance().getXmlInt(name+"/speedY"))
+           Vector2f(((rand()%100)+120)*((rand()%2) - 1 )+50, // Randomized velocity
+                    ((rand()%100)+120)*((rand()%2) - 1 )+50)
            ),
   explosion(NULL),
   frames( FrameFactory::getInstance().getFrames(name) ),
@@ -98,8 +98,6 @@ bool MultiSprite::isDestroyed() const{
 }
 
 void MultiSprite::update(Uint32 ticks) { 
-  //std::cout<<"Update "<<getName()<<std::endl;
-  
   if(explosion != NULL)
   {
     explosion->update(ticks);

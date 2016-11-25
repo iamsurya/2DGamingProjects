@@ -8,6 +8,7 @@ class CollStrat
         bool execute(const Drawable& obj1, const Drawable& obj2)        {
             return coll->execute(obj1, obj2);
         }
+        void deleteStrategy() {delete coll;}
     private:
     CollisionStrategy * coll;
     CollStrat() : coll(new PerPixelCollisionStrategy) {};

@@ -1,9 +1,9 @@
 #include "monsterManager.h"
 #include "gamedata.h"
 #include "time.h"
-#include "scorekeeper.h"
+#include "scoreKeeper.h"
 #include "ioManager.h"
-
+#include "collStrat.h"
 /* Stackoverflow for converting integer to string so that I can read monster names from XML */
 /* http://stackoverflow.com/a/4668799/4734557 */
 template<typename T>
@@ -24,10 +24,10 @@ MonsterManager::~MonsterManager()
 {
   deleteSprites(deliciousSprites);
   deleteSprites(scarySprites);
+  CollStrat::getInstance().deleteStrategy();
 }
 
 MonsterManager::MonsterManager() :
-  //backSprites(),
   scarySprites(),
   deliciousSprites(),
   unusedNames(),
@@ -158,8 +158,8 @@ void MonsterManager::updateMonsterCounts()
   /* First update the number of sprites according to score */
   unsigned int score = ScoreKeeper::getInstance().getScore();
 
-  numDelSprites = Gamedata::getInstance().getXmlInt("numDelSprites") + ( score / delSpritesDivider);
-  numScarySprites = Gamedata::getInstance().getXmlInt("numEnemySprites") + (score / enemySpritesDivider);
+  numDelSprites = (numDelSprites < (unsigned int) Gamedata::getInstance().getXmlInt("maxDelSprites")) ? Gamedata::getInstance().getXmlInt("numDelSprites") + ( score / delSpritesDivider) : numDelSprites;
+  numScarySprites = (numScarySprites < (unsigned int) Gamedata::getInstance().getXmlInt("maxScarySprites")) ? Gamedata::getInstance().getXmlInt("numEnemySprites") + (score / enemySpritesDivider) : numScarySprites;
 
   
 
@@ -238,12 +238,17 @@ void MonsterManager::reset()
 
   initNameLists();
 
-  ScoreKeeper::getInstance().setScore(100);
+  ScoreKeeper::getInstance().setScore(0);
   // TODO Reset Player deaths?
 }
 
 void MonsterManager::initNameLists()
 {
+  if(Gamedata::getInstance().getXmlInt("numMonstersNames") < (Gamedata::getInstance().getXmlInt("numInitialDeliciousNames") + Gamedata::getInstance().getXmlInt("numInitialScaryNames")))
+  {
+    std::cout<<"\nError: Check XML file values. numMonstersNames should be greater or equal to (numInitialDeliciousNames + numInitialScaryNames)\n"<<std::endl;
+    exit(0);
+  }
   /* Populate vector of unusedNames with names from XML file based on number of monsters */
   for(int i = 0; i<Gamedata::getInstance().getXmlInt("numMonstersNames"); i++)
   { 
@@ -263,4 +268,8 @@ void MonsterManager::initNameLists()
     scaryNames.push_back( *( unusedNames.begin() ) );
     unusedNames.pop_front();
   }
+}
+
+const std::list<std::string> * MonsterManager::getScaryNames() const {
+return (&scaryNames);
 }

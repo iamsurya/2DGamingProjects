@@ -88,7 +88,7 @@ void IOManager::printMessageAt(const string& msg, Sint16 x, Sint16 y, Uint32 fon
    setfont(fontnum);
    Uint16 zero = 0;
    SDL_Rect dest = {x,y,zero,zero};
-   SDL_Surface * stext = TTF_RenderText_Blended(font, msg.c_str(), color);
+   SDL_Surface * stext = TTF_RenderText_Blended(currentfont, msg.c_str(), color);
    if (stext) {
      SDL_BlitSurface( stext, NULL, screen, &dest );
      SDL_FreeSurface(stext);

@@ -1,6 +1,9 @@
 #include "twowaysprite.h"
 #include "player.h"
 #include <list>
+
+class SDLSound;
+
 class MonsterManager
 {
 public:
@@ -14,6 +17,7 @@ public:
     unsigned int getMaxScary() const {return numScarySprites;}
     void reset();
     std::string getWinText() const {return winText;}
+    const std::list<std::string> * getScaryNames() const;
 private:
     ~MonsterManager();
     void initNameLists();

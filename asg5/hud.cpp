@@ -2,13 +2,46 @@
 #include "clock.h"
 #include "scoreKeeper.h"
 #include "monsterManager.h"
+#include "multisprite.h"
+#include "sprite.h"
+#include "viewport.h"
 
 Hud::Hud(): gdata(Gamedata::getInstance()),
             screen(IOManager::getInstance().getScreen()),
             TOPLINE(gdata.getXmlInt("tophud/lineYloc")), BOTLINE(gdata.getXmlInt("bothud/lineYloc")),
             LINECOLOR(SDL_MapRGB(screen->format, gdata.getXmlInt("tophud/linered"), gdata.getXmlInt("tophud/linegreen"), gdata.getXmlInt("tophud/lineblue"))),
-            show(true), timetoshow((unsigned int) gdata.getXmlInt("tophud/showtime"))
+            show(true), timetoshow((unsigned int) gdata.getXmlInt("tophud/showtime")),
+            scaryNames(MonsterManager::getInstance().getScaryNames())
              {}
+
+
+void Hud::printSpritesToAvoid() const{
+  Uint32 x = 0; 
+  Uint32 y = 0; 
+  
+  std::list<std::string>::const_iterator nameptr = scaryNames->begin();
+  unsigned int count = 1;
+  while(nameptr != scaryNames->end())
+  {
+    /* Create a multisprite from the name */
+    MultiSprite A(*nameptr);
+   
+    /* Figure out where to draw this sprite */
+    x = gdata.getXmlInt("avoidtext/xloc")+ (count*gdata.getXmlInt("avoidtext/spriteXIncrement")); 
+    x += Viewport::getInstance().X() + (A.getFrame()->getWidth() / 4 );
+    y = 0;
+    y += Viewport::getInstance().Y() + (A.getFrame()->getHeight() / 6 );
+    Vector2f pos(x,y);
+    Vector2f vel(0,0);
+   
+    /* Create a regulat sprite b/c MultiSprite doesn't have a constructor that takes velocity and position */
+    Sprite B(A.getName(), pos, vel, A.getFrame());
+    B.draw();
+
+    nameptr++;
+    count++;
+  }
+}
 
 void Hud::draw() const
 {
@@ -31,9 +64,10 @@ void Hud::draw() const
   IOManager::getInstance().
       printMessageCenteredAt(MonsterManager::getInstance().getWinText(), gdata.getXmlInt("tophud/winMessage/y"),2);
     
-
   /* Bottom HUD things to show */
   IOManager::getInstance().printMessageAt(gdata.getXmlStr("screenTitle"), 10, 450);
+
+  printSpritesToAvoid();
 
   if(show)
   {
@@ -45,17 +79,18 @@ void Hud::draw() const
     IOManager::getInstance()
       .printMessageValueAt("Elapsed Seconds: ", Clock::getInstance().getTotalTicks()/1000, gdata.getXmlInt("fpstext/loc/x") + 60, gdata.getXmlInt("fpstext/loc/y"));
 
-    IOManager::getInstance()
-      .printMessageValueAt(gdata.getXmlStr("tophud/delNum/text"), MonsterManager::getInstance().getMaxDelicious(),
-                            gdata.getXmlInt("tophud/delNum/x"), gdata.getXmlInt("tophud/delNum/y"));
     
     IOManager::getInstance()
       .printMessageValueAt(gdata.getXmlStr("tophud/scaryNum/text"), MonsterManager::getInstance().getMaxScary(),
                             gdata.getXmlInt("tophud/scaryNum/x"), gdata.getXmlInt("tophud/scaryNum/y"));
 
-  IOManager::getInstance()
+    IOManager::getInstance()
       .printMessageValueAt(gdata.getXmlStr("tophud/delAct/text"), MonsterManager::getInstance().getNumDelicious(),
                             gdata.getXmlInt("tophud/delAct/x"), gdata.getXmlInt("tophud/delAct/y"));
+    IOManager::getInstance()
+      .printMessageValueAt(gdata.getXmlStr("tophud/delNum/text"), MonsterManager::getInstance().getMaxDelicious(),
+                            gdata.getXmlInt("tophud/delNum/x"), gdata.getXmlInt("tophud/delNum/y"));
+        
     
     IOManager::getInstance()
       .printMessageValueAt(gdata.getXmlStr("tophud/scaryAct/text"), MonsterManager::getInstance().getNumScary(),

@@ -87,23 +87,23 @@
   <fontsize>24</fontsize>
   <showtime>5500</showtime>
   <delNum>
-    <text>Max Delicious Sprites </text> <!-- Max Number of sprites according to score -->
-    <x>5</x>
+    <text>/ </text> <!-- Max Number of sprites according to score -->
+    <x>180</x>
     <y>63 </y>
   </delNum>
-  <delAct>  <!-- Actual Number of sprites on screen -->
-    <text>Delicious Sprites </text>
+  <delAct><!-- Actual Number of sprites on screen -->
+    <text>Delicious Monsters: </text>
     <x>5</x>
-    <y>85 </y>
+    <y>63 </y>
   </delAct>
   <scaryNum>
-    <text>Max Scary Sprites </text>
-    <x>265</x>
-    <y>63</y>
+    <text>/ </text> <!-- Max Scary Monsters: -->
+    <x>140</x>
+    <y>85</y>
   </scaryNum>
   <scaryAct>
-    <text>Scary Sprites</text>
-    <x>265</x>
+    <text>Scary Monsters: </text>
+    <x>5</x>
     <y>85</y>
   </scaryAct>
   <winMessage>
@@ -127,21 +127,22 @@
 
 <avoidtext>
 <text>Avoid: </text>
-<xloc>600</xloc>
+<xloc>550</xloc>
 <yloc>17</yloc>
 <fontnum>0</fontnum>
+<spriteXIncrement>50</spriteXIncrement>
 </avoidtext>
 
 <scoretext>
 <text>Score: </text>
-<xloc>700</xloc>
+<xloc>750</xloc>
 <yloc>17</yloc>
 <fontnum>0</fontnum>
 </scoretext>
 
 
 <helptext>
-<text>Use asdw to move, mouse to aim and shoot, F1 to toggle HUD, F4 for frames</text>
+<text>Use asdw to move, F1 to toggle HUD, F4 for frames, r to rest</text>
 <xloc>150</xloc>
 <yloc>450</yloc>
 </helptext>
@@ -153,7 +154,7 @@
   <file>images/player.png</file>
   <startLoc x="200" y="200"/>
   <frames>26</frames>
-  <frameInterval>100</frameInterval>
+  <frameInterval>150</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
   <speed>80</speed>
@@ -175,12 +176,14 @@
 
 <!-- List of names to randomize monsters from. 
 These two need to add up to less than the number above, otherwise the game will crash -->
-<numInitialDeliciousNames>3</numInitialDeliciousNames>
+<numInitialDeliciousNames>2</numInitialDeliciousNames>
 <numInitialScaryNames>1</numInitialScaryNames>
 
 <!-- Actual number of monsters to draw from the list of names -->
 <numDelSprites>10</numDelSprites>>
 <numEnemySprites>10</numEnemySprites>
+<maxDelSprites>30</maxDelSprites> <!-- You can make this really high, but the game becomes too easy -->
+<maxScarySprites>18</maxScarySprites> <!-- Can increase difficulty -->
 <delSpritesDivider>100</delSpritesDivider>
 <enemySpritesDivider>200</enemySpritesDivider>
 
@@ -242,7 +245,7 @@ These two need to add up to less than the number above, otherwise the game will 
   <file>images/3.png</file>
   <startLoc x="120" y="140"/>
   <frames>26</frames>
-  <frameInterval>100</frameInterval>
+  <frameInterval>150</frameInterval>
   <speedX>-100</speedX>
   <speedY>-100</speedY>
   <transparency>true</transparency>

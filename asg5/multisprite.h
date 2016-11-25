@@ -5,7 +5,6 @@
 #include "drawable.h"
 
 class ExplodingSprite;
-
 class MultiSprite : public Drawable {
 public:
   MultiSprite(const std::string&);

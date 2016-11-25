@@ -1,9 +1,3 @@
 TODO 1: Improve 2.png animation
-TODO 2: Check bounds in constructor of monsterManager namesLists. If in the XML Number of Init is greater than total the program crashes.
-TODO 2.5: Move code to Init() so a reset function can call it.
-TODO 3: Fix velocity randomization multisprite constructor
-TODO 5: Player should lose lives.
-TODO 7: SetScore 100 to avoid segfault.
-
-
-NEXT: YOU WON SHOULD DISPLAY AFTER SCARYLIST IS EMPTY
+TODO 2: Player should lose lives.
+TODO 3: Play sound on pops
