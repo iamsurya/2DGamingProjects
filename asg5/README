@@ -1,19 +1,43 @@
 Name: Surya Sharma
 Clemson Email Address: spsharm@clemson.edu
 
-Project no: 4
-Project due date: 10/28/2016
+Project no: 5
+Project due date: 11/22/2016
 
-Project description: This project requires the creation of an HUD, player control using the keyboard and using painters algorithm.
+Project description: This project requires an almost complete game with explosions, object pools, collisions, and projectiles* (see Notes).
 
 Extra Contribution:
+This game is completely modular! To make the game longer, all you need to do is add another png to the images folder, and update the
+XML file with the correct monster numbers and <MonsterX> tag where X is the number for the new monster. Difficulty can be changed by
+changing values in the XML file.
 
-Game description: The game is set inside a biological cell. The player has to eat smaller microbes and grow bigger: scoring more points while avoiding larger microbes.
-Enemies become faster and increase in number as the score increases. The game ends when the player is eaten by a larger microbe or becomes the largest microbe (reaching a score of 20,000).  
+See lines 175 - 188 of game.xml to change the number of monsters on screen.
+****
+I recommend you change <numInitialScaryNames> to 2 and see how the game changes :)
+****
+
+Game description: The game is set inside a biological cell. The player has to eat smaller microbes and grow bigger, scoring more points while avoiding larger microbes.
+Enemies become increase in number and size as the score increases. The game ends when the player is eaten by a larger microbe or becomes the largest microbe (reaching
+a score of 5,000, but remember this number depends on the number of total monsters defined in the XML (1000 X (Number of total monsters - numInitialDeliciousNames)).  
+
+Use asdw to move and avoid the monster indicated in the top right.
 
 Notes:
-I'm not sure if I'm correctly using const everywhere.
+Object Pools: The monsters are split into two pools delicious sprites and scary sprites. When the player score reaches a multiple
+of 1000, the game enters the next level where all current scary sprites are moved to delicious sprites, and new scary sprites are
+created.
 
+**** FEATURES NOT IMPLEMENTED ****
+* Projectiles were removed from the requirements because they didn't fit the theme.
+Parallax: The game is very fast and parallax effects only make it more confusing.
+
+The player will move in a random direction if both a+d or w+s are pressed. I decided not to fix this because of two reasons: 
+1) The player movement is very fluid already.
+2) The game requires nimble fingers and if the gamer stays at the same place, he will probably die.
+[ This is a feature, not a bug ;) ]
+
+I tried to add sound but every sound I tried causes segfaults. I'm not sure how I will approach this for Assignment 6.
+Kinda disaapointed because the pop sounds really good when an object explodes.
 
 Resources:
 Sounds:
@@ -22,12 +46,8 @@ Monster Death: http://soundbible.com/2067-Blop.html
 Fonts from dafont.com, free for personal use: http://www.dafont.com/ghost-crazy.font
 Background sound created from http://soundbible.com/1137-Bubbles.html and http://soundbible.com/293-Fishtank-Bubbles.html
 
-
-To Do: I think I'm using magic numbers in two places, I should move them to the XML file.
-To Do: The green objects look like they are sprites but they are a part of the parallax effect. Turn them into sprites maybe?
-To Do: Fix sprite images. Resizing them from a larger image to sprite size leaves a pink border around them.
-
-
-Additional Information on how the game works:
-One full list of microbes exists for a total of 6 microbes. When the game starts new sprites are added to the delicious and scary list based on the delicious and scary names. As time goes on, the lowest
-microbe in the scary name is moved to the delicious name, and a new scary name is added.
+Cheat Keys:
+1: Increase score by 100
+2: Decrease score by 100
+8 : Sets the score to 900. This helps call nextLevel() faster which is called everytime the score reaches a multiple of 1000
+9 : Explode the player 

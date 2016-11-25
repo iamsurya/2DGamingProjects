@@ -13,10 +13,7 @@
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
-  // TODO: Delete all sprites
-//  for (unsigned i = 0; i < backSprites.size(); ++i) {
-//    delete backSprites[i];
-//  }
+  // MonsterManager deletes its sprites
 }
 
 Manager::Manager() :
@@ -47,9 +44,6 @@ Manager::Manager() :
   srand (time(NULL));
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
-  /* Sprite * A = new Sprite("star");
-  Sprite B = new Sprite("greenorb"); 
-  B = A; */
 
   viewport.setObjectToTrack(&player);
 }
@@ -81,8 +75,6 @@ void Manager::makeFrame() {
 }
 
 void Manager::switchSprite() {
- // currentSprite = (currentSprite+1) % backSprites.size();
- // viewport.setObjectToTrack(backSprites[currentSprite]);
 }
 
 void Manager::update() {
@@ -91,7 +83,6 @@ void Manager::update() {
   static unsigned int lastSeconds = clock.getSeconds();
   if ( clock.getSeconds() - lastSeconds == 5 ) {
     lastSeconds = clock.getSeconds();
-    //switchSprite();
   }
 
   if ( makeVideo && frameCount < frameMax ) {
@@ -109,7 +100,6 @@ void Manager::update() {
 
 void Manager::play() {
   SDL_Event event;
-  //SDL_KeyboardEvent keyEvent;
   bool done = false;
   Uint8 *keystate = NULL;
   while ( not done ) {
@@ -119,14 +109,14 @@ void Manager::play() {
      
 
           if (keystate[SDLK_9]) {
-          //switchSprite();
           player.explode();
           }
-
+          if (keystate[SDLK_8]) {
+          scoreKeeper.setScore(900);
+          }
           if (keystate[SDLK_1]) {
           scoreKeeper.setScore(scoreKeeper.getScore() + 100);
           }
-          
           if (keystate[SDLK_2]) {
           scoreKeeper.setScore(scoreKeeper.getScore() - 100);
           }
@@ -154,13 +144,9 @@ void Manager::play() {
       if ( keystate[SDLK_F1] ) {
           hud.toggleshow();
         }
-
-      /* Ask the player class to handle keyboard presses */
-      
     }
 
     player.handleEvent(&event.key);
-    //player.handleMouseEvent(&event.motion);
     draw();
     update();
   }

@@ -62,7 +62,7 @@ void Hud::draw() const
 
   /* Show that you've won */
   IOManager::getInstance().
-      printMessageCenteredAt(MonsterManager::getInstance().getWinText(), gdata.getXmlInt("tophud/winMessage/y"),2);
+      printMessageCenteredAt(MonsterManager::getInstance().getWinText(), gdata.getXmlInt("tophud/winText/y"),2);
     
   /* Bottom HUD things to show */
   IOManager::getInstance().printMessageAt(gdata.getXmlStr("screenTitle"), 10, 450);

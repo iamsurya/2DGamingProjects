@@ -138,7 +138,7 @@ void MonsterManager::nextLevel()
 
     if(scaryNames.size() == 0)
     {
-        winText = "YOU WON!";
+        winText = Gamedata::getInstance().getXmlStr("tophud/winText/text");//"YOU WON!";
     }
     /* DEBUG 
     std::cout<<"\nDelicious: ";
@@ -237,7 +237,7 @@ void MonsterManager::reset()
   unusedNames.clear();
 
   initNameLists();
-
+  winText = " ";
   ScoreKeeper::getInstance().setScore(0);
   // TODO Reset Player deaths?
 }
