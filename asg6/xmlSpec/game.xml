@@ -144,6 +144,12 @@
 <yloc>440</yloc>
 </goaltext>
 
+<godText>
+<text>GOD MODE</text>
+<xloc>700</xloc>
+<yloc>67</yloc>
+</godText>
+
 <avoidtext>
 <text>Avoid: </text>
 <xloc>550</xloc>

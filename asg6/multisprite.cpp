@@ -30,14 +30,16 @@ void MultiSprite::incrementScore(unsigned int increment) const
   unsigned int newScore = ScoreKeeper::getInstance().getScore()+increment;
   ScoreKeeper::getInstance().setScore(newScore);
   if((newScore != 0) && (newScore%1000) == 0) MonsterManager::getInstance().nextLevel();
-  
 }
 
 void MultiSprite::explode()
 {
   if(explosion != NULL) return;
   
-  if(getName() == "player") (SDLSound::getInstance())[1];
+  if(getName() == "player") {
+    if( Player::getInstance().isGod() == true) return; // Don't explode if God Mode
+    (SDLSound::getInstance())[1];
+  }
   else
   { 
       incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));// * ScoreKeeper::getInstance().getMultiplier() ); This causes problem with next level detector

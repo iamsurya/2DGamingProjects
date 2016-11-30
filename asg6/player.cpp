@@ -14,15 +14,15 @@ Player& Player::getInstance()
   return playerInstance;
 }
 
-    Player::Player(const std::string & name) : TwoWaySprite(name), accelerationX(0), accelerationY(0),
-    screen(IOManager::getInstance().getScreen()),
-    aimcolor(SDL_MapRGB(screen->format,Gamedata::getInstance().getXmlInt("player/aimred"),Gamedata::getInstance().getXmlInt("player/aimgreen"),Gamedata::getInstance().getXmlInt("player/aimblue"))),
-    mousex(0), mousey(0), drawline(false)    
-    {
-      X(Gamedata::getInstance().getXmlInt("player/startLoc/x")); Y(Gamedata::getInstance().getXmlInt("player/startLoc/x")); /* Need to set start location for player's Drawable. */
-      velocityX(Gamedata::getInstance().getXmlInt("player/speedX")); /* Start velocity */
-      velocityY(Gamedata::getInstance().getXmlInt("player/speedY")); /* can be set in MultiSprite.cpp's constructor, but that makes the code ugly. */
-    }
+Player::Player(const std::string & name) : TwoWaySprite(name), accelerationX(0), accelerationY(0),
+screen(IOManager::getInstance().getScreen()),
+aimcolor(SDL_MapRGB(screen->format,Gamedata::getInstance().getXmlInt("player/aimred"),Gamedata::getInstance().getXmlInt("player/aimgreen"),Gamedata::getInstance().getXmlInt("player/aimblue"))),
+mousex(0), mousey(0), godMode(false)    
+{
+  X(Gamedata::getInstance().getXmlInt("player/startLoc/x")); Y(Gamedata::getInstance().getXmlInt("player/startLoc/x")); /* Need to set start location for player's Drawable. */
+  velocityX(Gamedata::getInstance().getXmlInt("player/speedX")); /* Start velocity */
+  velocityY(Gamedata::getInstance().getXmlInt("player/speedY")); /* can be set in MultiSprite.cpp's constructor, but that makes the code ugly. */
+}
 
 void Player::update(Uint32 ticks)
 {
@@ -70,11 +70,6 @@ void Player::handleMouseEvent(const SDL_MouseMotionEvent *event)
   
   mousex = event->x;
   mousey = event->y;
-  if( (mousex>5) && (mousey > 5) && (mousex < 850) && (mousey < 475))
-  {
-  drawline = true;
-  }
-  else drawline = false;
 }
 
 /* Help from https://www.libsdl.org/release/SDL-1.2.15/docs/html/guideinputkeyboard.html */

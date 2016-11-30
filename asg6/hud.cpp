@@ -64,6 +64,11 @@ void Hud::draw() const
   IOManager::getInstance().
       printMessageCenteredAt(MonsterManager::getInstance().getWinText(), gdata.getXmlInt("tophud/winText/y"),2);
     
+  /* Show that you're god */
+  if(Player::getInstance().isGod()) IOManager::getInstance().
+      printMessageAt(gdata.getXmlStr("godText/text"), gdata.getXmlInt("godText/xloc"), gdata.getXmlInt("godText/yloc"),2);
+  
+  
   /* Bottom HUD things to show */
   IOManager::getInstance().printMessageAt(gdata.getXmlStr("screenTitle"), 10, 450);
 

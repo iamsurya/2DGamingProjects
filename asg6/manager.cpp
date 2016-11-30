@@ -124,6 +124,9 @@ void Manager::play() {
           if (keystate[SDLK_r]) {
           monsterManager.reset();
           }
+          if (keystate[SDLK_g]) {
+          player.toggleGodMode();
+          }
       /* Make frames for submission */
       if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;
