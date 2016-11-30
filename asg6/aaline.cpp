@@ -1,8 +1,14 @@
+#include "iostream"
 #include <algorithm>
 #include <cmath>
 #include <SDL.h>
 #include <stdio.h>
 #include "aaline.h"
+
+const float PI = 3.1415926535897; 
+
+#define DEG2RAD (PI/180)
+#define DegToRad(x) ((x)*DEG2RAD)
 
 void Draw_Pixel(SDL_Surface* s, int x, int y, 
                 uint8_t r, uint8_t g, uint8_t b, uint8_t a){
@@ -290,3 +296,17 @@ void Draw_AALine(SDL_Surface* screen, float x0, float y0, float x1, float y1, ui
 	Draw_AALine(screen, x0+0.5f, y0+0.5f, x1+0.5f, y1+0.5f, 1.0f, r, g, b, 0xFF);
 }
 
+/* Copied from Dr. Malloy's examples #NEVERCOPYANDPASTE */
+void Draw_Circle(SDL_Surface* screen, uint32_t x, uint32_t y, uint8_t radius,
+                uint8_t thick, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
+	int step = 1; /* Change this to less than 1 to have a more sharper circle */
+	for (int theta = 0; theta < 360; theta += step) {
+		for(int t = 0; t < thick; t++)
+		{
+			//std::cout<<t<<" "<< x + ( (t + radius) * cos(DegToRad(theta)))<<std::endl;
+			Draw_Pixel(screen, t+ x + ( (radius) * cos(DegToRad(theta))), 
+				y + radius * sin(DegToRad(theta)), r, g, b,a);
+		}
+	}
+}

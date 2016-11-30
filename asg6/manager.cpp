@@ -131,7 +131,7 @@ void Manager::play() {
         }
       
       /* Quit when Escape is pressed */
-      if (keystate[SDLK_ESCAPE] || keystate[SDLK_q]) {
+      if (keystate[SDLK_ESCAPE]) {
           done = true;
           break;
         }

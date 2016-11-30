@@ -140,6 +140,8 @@ void MonsterManager::nextLevel()
     {
         winText = Gamedata::getInstance().getXmlStr("tophud/winText/text");//"YOU WON!";
     }
+
+    ScoreKeeper::getInstance().setMultiplier(ScoreKeeper::getInstance().getMultiplier()*Gamedata::getInstance().getXmlFloat("scoreMultiplier"));
     /* DEBUG 
     std::cout<<"\nDelicious: ";
     printNames(deliciousNames);

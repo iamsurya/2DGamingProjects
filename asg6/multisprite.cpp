@@ -37,10 +37,13 @@ void MultiSprite::explode()
 {
   if(explosion != NULL) return;
   
-  if(getName() != "player"){
-      incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));
+  if(getName() == "player") (SDLSound::getInstance())[1];
+  else
+  { 
+      incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));// * ScoreKeeper::getInstance().getMultiplier() ); This causes problem with next level detector
       (SDLSound::getInstance())[0];
-  } 
+  }
+ 
   Vector2f v(20,20);
   Sprite A(getName(), getPosition(), v, getFrame());
   explosion = new ExplodingSprite(A); 

@@ -1,5 +1,4 @@
 #include "scoreKeeper.h"
-
  ScoreKeeper& ScoreKeeper::getInstance()
  {
      static ScoreKeeper scoreInstance;
@@ -14,7 +13,7 @@
      score = s;
  }
 
-ScoreKeeper::ScoreKeeper() : score(0)
+ScoreKeeper::ScoreKeeper() : score(0), multiplier(1.0f)
 {
 
 }

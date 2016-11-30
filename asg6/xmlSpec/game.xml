@@ -125,6 +125,25 @@
   <fontsize>24</fontsize>
 </bothud>
 
+<scoretext>
+<text>Score: </text>
+<xloc>750</xloc>
+<yloc>17</yloc>
+<fontnum>0</fontnum>
+</scoretext>
+
+<helptext>
+<text>ASDW:move, F1:HUD, F4:Frames, R:Reset, ESC:quit, G:God Mode</text>
+<xloc>150</xloc>
+<yloc>460</yloc>
+</helptext>
+
+<goaltext>
+<text>Eat and become the king of the bacteria! Avoid the bacteria bigger than you.</text>
+<xloc>150</xloc>
+<yloc>440</yloc>
+</goaltext>
+
 <avoidtext>
 <text>Avoid: </text>
 <xloc>550</xloc>
@@ -133,20 +152,16 @@
 <spriteXIncrement>50</spriteXIncrement>
 </avoidtext>
 
-<scoretext>
-<text>Score: </text>
-<xloc>750</xloc>
-<yloc>17</yloc>
-<fontnum>0</fontnum>
-</scoretext>
-
-
-<helptext>
-<text>Use asdw to move, F1 to toggle HUD, F4 for frames, r to reset</text>
-<xloc>150</xloc>
-<yloc>450</yloc>
-</helptext>
-
+<avoidcircle>
+  <radius>80</radius>>
+  <thick>10</thick>
+  <xloc>620</xloc>
+  <yloc>17</yloc>
+  <red>255</red>
+  <green>0</green>
+  <blue>0</blue>
+  <alpha>255</alpha>
+</avoidcircle>
 <!-- Sprites -->
 
 <player>
@@ -182,11 +197,11 @@ These two need to add up to less than the number above, otherwise the game will 
 <!-- Actual number of monsters to draw from the list of names -->
 <numDelSprites>10</numDelSprites>>
 <numEnemySprites>10</numEnemySprites>
-<maxDelSprites>30</maxDelSprites> <!-- You can make this really high, but the game becomes too easy -->
+<maxDelSprites>20</maxDelSprites> <!-- You can make this really high, but the game becomes too easy -->
 <maxScarySprites>18</maxScarySprites> <!-- Can increase difficulty -->
 <delSpritesDivider>100</delSpritesDivider>
 <enemySpritesDivider>200</enemySpritesDivider>
-
+<scoreMultiplier>0.9</scoreMultiplier>
 
 <currentMonster>Monster5</currentMonster> <!-- Ddebugging -->
 

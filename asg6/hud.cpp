@@ -102,6 +102,13 @@ void Hud::draw() const
     
     Draw_AALine(screen, 0,BOTLINE+3, screen->w,BOTLINE+3, 1, LINECOLOR);
 
+    Draw_Circle(screen, gdata.getXmlInt("avoidcircle/xloc"), gdata.getXmlInt("avoidcircle/yloc"), gdata.getXmlInt("avoidcircle/radius"),
+                gdata.getXmlInt("avoidcircle/thick"), gdata.getXmlInt("avoidcircle/red"), gdata.getXmlInt("avoidcircle/green"), gdata.getXmlInt("avoidcircle/blue"),
+                gdata.getXmlInt("avoidcircle/alpha"));
+
+    IOManager::getInstance()
+      .printMessageAt(gdata.getXmlStr("goaltext/text"), gdata.getXmlInt("goaltext/xloc"), gdata.getXmlInt("goaltext/yloc"));
+
     IOManager::getInstance()
       .printMessageAt(gdata.getXmlStr("helptext/text"), gdata.getXmlInt("helptext/xloc"), gdata.getXmlInt("helptext/yloc"));
 
