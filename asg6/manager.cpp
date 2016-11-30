@@ -8,7 +8,7 @@
 #include "gamedata.h"
 #include "manager.h"
 #include "player.h"
-
+#include "sound.h"
 
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
@@ -44,6 +44,7 @@ Manager::Manager() :
   srand (time(NULL));
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
+  SDLSound::getInstance();
 
   viewport.setObjectToTrack(&player);
 }

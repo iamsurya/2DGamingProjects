@@ -7,6 +7,7 @@
 #include "scoreKeeper.h"
 #include "monsterManager.h"
 #include "collStrat.h"
+#include "sound.h"
 
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -38,6 +39,7 @@ void MultiSprite::explode()
   
   if(getName() != "player"){
       incrementScore(Gamedata::getInstance().getXmlInt(getName()+"/scoreIncrement"));
+      (SDLSound::getInstance())[0];
   } 
   Vector2f v(20,20);
   Sprite A(getName(), getPosition(), v, getFrame());
