@@ -12,8 +12,7 @@ Hud::Hud(): gdata(Gamedata::getInstance()),
             LINECOLOR(SDL_MapRGB(screen->format, gdata.getXmlInt("tophud/linered"), gdata.getXmlInt("tophud/linegreen"), gdata.getXmlInt("tophud/lineblue"))),
             show(true), timetoshow((unsigned int) gdata.getXmlInt("tophud/showtime")),
             scaryNames(MonsterManager::getInstance().getScaryNames())
-             {}
-
+            {}
 
 void Hud::printSpritesToAvoid() const{
   Uint32 x = 0; 

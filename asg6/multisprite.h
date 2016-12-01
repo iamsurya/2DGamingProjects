@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "drawable.h"
+enum ATTACHED{NO, YES};
 
 class ExplodingSprite;
 class MultiSprite : public Drawable {
@@ -21,7 +22,7 @@ public:
   bool checkCollision(const Drawable * scary);
   bool isDestroyed() const;
   int getDistance(const Drawable*) const;
-
+  void setAttached(const ATTACHED a) {attached = a;}
 protected:
   ExplodingSprite * explosion; // Allows us to make explode() const;
   const std::vector<Frame *> frames;
@@ -40,5 +41,12 @@ protected:
   virtual void advanceFrame(Uint32 ticks);
   MultiSprite& operator=(const MultiSprite&); // Explicityly disallow assignment operator and consturctors
   bool isNotExploding() const;
+  enum MODE {NORMAL, EVADE};
+  MODE currentMode;
+  ATTACHED attached;
+  void goLeft();
+  void goRight();
+  void goUp();
+  void goDown();
 };
 #endif

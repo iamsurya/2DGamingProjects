@@ -19,6 +19,7 @@ screen(IOManager::getInstance().getScreen()),
 aimcolor(SDL_MapRGB(screen->format,Gamedata::getInstance().getXmlInt("player/aimred"),Gamedata::getInstance().getXmlInt("player/aimgreen"),Gamedata::getInstance().getXmlInt("player/aimblue"))),
 mousex(0), mousey(0), godMode(false)    
 {
+
   X(Gamedata::getInstance().getXmlInt("player/startLoc/x")); Y(Gamedata::getInstance().getXmlInt("player/startLoc/x")); /* Need to set start location for player's Drawable. */
   velocityX(Gamedata::getInstance().getXmlInt("player/speedX")); /* Start velocity */
   velocityY(Gamedata::getInstance().getXmlInt("player/speedY")); /* can be set in MultiSprite.cpp's constructor, but that makes the code ugly. */

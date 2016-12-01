@@ -71,7 +71,9 @@ MultiSprite::MultiSprite( const std::string& name) :
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
-  destroyed(false)
+  destroyed(false),
+  currentMode(NORMAL),
+  attached(NO)
 { }
 
 MultiSprite::MultiSprite(const MultiSprite& s) :
@@ -86,7 +88,9 @@ MultiSprite::MultiSprite(const MultiSprite& s) :
   timeSinceLastFrame( s.timeSinceLastFrame ),
   frameWidth( s.frameWidth ),
   frameHeight( s.frameHeight ),
-  destroyed(s.destroyed)
+  destroyed(s.destroyed),
+  currentMode(s.currentMode),
+  attached(s.attached)
   {}
 
 void MultiSprite::draw() const {
@@ -113,6 +117,7 @@ void MultiSprite::update(Uint32 ticks) {
         delete explosion;
         explosion = NULL;
         destroyed = true;
+        if(getName() == "player") (SDLSound::getInstance())[3];        
     }
     return;
   }
@@ -136,7 +141,38 @@ void MultiSprite::update(Uint32 ticks) {
     velocityX( -abs( velocityX() ) );
   }  
 
+  /* Code from subjectsprite example */
+
+  float x = X() + getFrame()->getWidth() / 2;
+  float y = Y() + getFrame()->getHeight() / 2;
+  float px = Player::getInstance().X() + Player::getInstance().getFrame()->getWidth()/2;
+  float py = Player::getInstance().Y() + Player::getInstance().getFrame()->getHeight()/2;
+  float distanceToPlayer = hypot(x - px, y - py);
+
+  if((currentMode == NORMAL) && (attached == YES))
+  {
+    if(distanceToPlayer < Gamedata::getInstance().getXmlInt("player/safedistance")) currentMode = EVADE;
+  }
+  else if ((currentMode == EVADE) && (attached == YES))
+  {
+    if(distanceToPlayer > Gamedata::getInstance().getXmlInt("player/safedistance")) currentMode = NORMAL;
+    else{
+      if ( x < px ) goLeft();
+      if ( x > px ) goRight();
+      if ( y < py ) goUp();
+      if ( y > py ) goDown();
+    }
+  }
+
 }
+
+void MultiSprite::goLeft()  { 
+  if (X() > 0) velocityX( -abs(velocityX()) ); 
+}
+void MultiSprite::goRight() { velocityX( fabs(velocityX()) ); }
+void MultiSprite::goUp()    { velocityY( -fabs(velocityY()) ); }
+void MultiSprite::goDown()  { velocityY( fabs(velocityY()) ); }
+
 
 int MultiSprite::getDistance(const Drawable *obj) const { 
   return hypot(X()-obj->X(), Y()-obj->Y());

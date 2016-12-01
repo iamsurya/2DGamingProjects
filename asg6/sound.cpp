@@ -39,6 +39,7 @@ SDLSound::SDLSound() :
   startMusic();
   sounds.push_back( Mix_LoadWAV("sounds/pop.wav") );
   sounds.push_back( Mix_LoadWAV("sounds/player.wav") );
+  sounds.push_back( Mix_LoadWAV("sounds/playerstart.wav") );
   for (unsigned int i = 0; i < sounds.size(); ++i) channels.push_back(i);
 }
 

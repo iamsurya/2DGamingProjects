@@ -61,7 +61,38 @@ void MonsterManager::draw()
   drawMonsters(scarySprites);
 }
 
-void MonsterManager::updateMonsterList(std::list<Drawable *> & itemlist, std::list<string> & nameslist, unsigned int maxsize)
+void MonsterManager::randomlyAttach(Drawable* monster)
+{
+  if(ScoreKeeper::getInstance().getScore() > (unsigned int) Gamedata::getInstance().getXmlInt("smartScore"))
+  {
+    if( (rand() % ( 100 / Gamedata::getInstance().getXmlInt("evadeProbability"))) == 0)
+        static_cast<MultiSprite *>(monster)->setAttached(YES);
+  } 
+}
+
+void MonsterManager::updateDelMonsterList(std::list<Drawable *> & itemlist, std::list<string> & nameslist, unsigned int maxsize)
+{
+  if(nameslist.size() > 0) /* Make sure scary list is not empty */
+  {
+    /* First make sure enough delicious and scary monsters exist */
+    while(itemlist.size() < maxsize)
+    {
+      /* First pick a sprite name to create */
+      unsigned int i =  rand() % nameslist.size();
+
+      /* Find the string for that number from Sprite Names */
+      std::list<string>::const_iterator stringiterator = nameslist.begin();
+      for(unsigned int j = 0; j < i  ; j ++) stringiterator++;
+
+      /* Push this sprite type to deliciousSprites */
+      itemlist.push_back(new TwoWaySprite(*stringiterator));
+      randomlyAttach(itemlist.back());
+  }
+  }
+}
+
+
+void MonsterManager::updateScaryMonsterList(std::list<Drawable *> & itemlist, std::list<string> & nameslist, unsigned int maxsize)
 {
   if(nameslist.size() > 0) /* Make sure scary list is not empty */
   {
@@ -119,6 +150,7 @@ void MonsterManager::nextLevel()
       if( (*nameptr) == ( (*ptr)->getName() ) )
       {
         deliciousSprites.push_back(*ptr); /* Push back stores copy of value? */
+        randomlyAttach(deliciousSprites.back());
         ptr = scarySprites.erase(ptr);
       }
       else ptr++;
@@ -166,8 +198,8 @@ void MonsterManager::updateMonsterCounts()
   
 
   /* Then update the monster lists */
-  updateMonsterList(deliciousSprites, deliciousNames, numDelSprites);
-  updateMonsterList(scarySprites, scaryNames, numScarySprites);
+  updateDelMonsterList(deliciousSprites, deliciousNames, numDelSprites);
+  updateScaryMonsterList(scarySprites, scaryNames, numScarySprites);
 }
 
 void MonsterManager::updateMonsters(std::list<Drawable *> & itemlist, Uint32 ticks)

@@ -2,6 +2,8 @@
 <GameData>
 <!-- screenTitle is also used to identify you and your animation. 
      So make sure to include your name as part of the screenTitle -->
+
+ <!-- GAME SETTINGS -->    
 <screenTitle>Surya Sharma</screenTitle>
 <maxStringSize>50</maxStringSize>
 
@@ -17,6 +19,7 @@
   <height>480</height>
 </view>
 
+<!-- World can be up to 2000 X 2000 -->
 <world>
   <width>1000</width>
   <height>1000</height>
@@ -63,16 +66,11 @@
   <unused>0</unused>
 </font>
 
+<!-- UNUSED -->
 <trackingtext>
 <text>Tracking </text>
 <loc x="5" y="5" />
 </trackingtext>
-
-<fpstext>
-<text>fps:</text>
-<loc x="5" y="13" />
-</fpstext>
-
 
 <!-- TOP HUD LINE, LOCATION AND COLOR -->
 <tophud>
@@ -85,7 +83,7 @@
   <lineblue>59</lineblue>
   <fontfile>font/ghost_crazy.ttf</fontfile>
   <fontsize>24</fontsize>
-  <showtime>5500</showtime>
+  <showtime>10000</showtime>
   <delNum>
     <text>/ </text> <!-- Max Number of sprites according to score -->
     <x>174</x>
@@ -112,6 +110,11 @@
     <y>85</y>
   </winText>
 </tophud>
+
+<fpstext>
+<text>fps:</text>
+<loc x="5" y="13" />
+</fpstext>
 
 <!-- BOTTOM HUD LINE, LOCATION AND COLOR -->
 <bothud>
@@ -170,8 +173,11 @@
 </avoidcircle>
 <!-- Sprites -->
 
+
+<!-- PLAYER DETAILS -->
 <player>
-<scoreIncrement>0</scoreIncrement>
+<safedistance>100</safedistance> <!-- When evading, run away at this distance -->
+<scoreIncrement>0</scoreIncrement> <!-- Used to increase score for delicious sprites -->
   <file>images/player.png</file>
   <startLoc x="200" y="200"/>
   <frames>26</frames>
@@ -193,10 +199,15 @@
 <!-- MONSTER MANAGER -->
 <!-- This area allows modification to the number of monsters, starting counts etc -->
 <!-- Monsters need to be named Monster0, Monster1, Monster11 etc -->
-<numMonstersNames>7</numMonstersNames>
+<numMonstersNames>6</numMonstersNames>
 
-<!-- List of names to randomize monsters from. 
-These two need to add up to less than the number above, otherwise the game will crash -->
+<!--
+!!!!!!!!!!!!!!       !!!!!!!!!!!!!!!!
+The original game dated 11/30/2016 has information for 7 monsterNames.
+List of names to randomize monsters from. 
+These two need to add up to less than the number above, otherwise the game will crash 
+!!!!!!!!!!!!!!       !!!!!!!!!!!!!!!!
+-->
 <numInitialDeliciousNames>2</numInitialDeliciousNames>
 <numInitialScaryNames>1</numInitialScaryNames>
 
@@ -205,14 +216,24 @@ These two need to add up to less than the number above, otherwise the game will 
 <numEnemySprites>10</numEnemySprites>
 <maxDelSprites>20</maxDelSprites> <!-- You can make this really high, but the game becomes too easy -->
 <maxScarySprites>18</maxScarySprites> <!-- Can increase difficulty -->
-<delSpritesDivider>100</delSpritesDivider>
+<delSpritesDivider>400</delSpritesDivider>
 <enemySpritesDivider>200</enemySpritesDivider>
 <scoreMultiplier>0.9</scoreMultiplier>
 
+<smartScore>2000</smartScore> <!-- At this score smart sprites start appearing -->
+<evadeProbability>25</evadeProbability> <!--Probability that a sprite will be smart. Used on creation -->
+
 <currentMonster>Monster5</currentMonster> <!-- Ddebugging -->
 
+
+<!-- Sprite info -->
 <Monster0>
-<scoreIncrement>100</scoreIncrement>
+<scoreIncrement>100</scoreIncrement> <!-- increments score by this amount -->
+<!-- 
+!!!!!!!!!!!!!!       !!!!!!!!!!!!!!!!
+Careful when chaning this number! If score isn't a multiple of 1000, NextLevel() fails.
+!!!!!!!!!!!!!!       !!!!!!!!!!!!!!!!
+-->
   <chunk>
     <size>20</size>
     <distance>10</distance>

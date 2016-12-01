@@ -26,11 +26,13 @@ private:
     MonsterManager & operator=(MonsterManager &);
     void drawMonsters(std::list<Drawable *> &);
     void updateMonsters(std::list<Drawable *> &, Uint32);
-    void updateMonsterList(std::list<Drawable *> &, std::list<string> &, unsigned int);
+    void updateDelMonsterList(std::list<Drawable *> &, std::list<string> &, unsigned int);
+    void updateScaryMonsterList(std::list<Drawable *> &, std::list<string> &, unsigned int);
     void updateMonsterCounts();
     void printNames(std::list<std::string> &) const;
     void printNames(std::list<Drawable*> &) const;
     void deleteSprites(std::list<Drawable*> &);
+    void randomlyAttach(Drawable *);
     //std::list<Drawable*> backSprites; /* In the background, they don't do anything */
     std::list<Drawable*> scarySprites;  /* These bad creatures will eat us. Avoid them */
     std::list<Drawable*> deliciousSprites;  /* These delicious items are for us to eat! Muahahaha */
