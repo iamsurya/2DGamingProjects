@@ -1,13 +1,11 @@
-Name:
-Clemson Email Address:
-Course number: (4160 or 6160)
+# Projects for 2D Game Design Course based on Object Oriented Programming in C
 
-Project no:
-Project due date:
+Final video link: https://www.youtube.com/watch?v=m8O6GbegiOE
 
-Project description:
+Video Game designed as a project for CPSC 6160: 2D Game Design using Object Oriented Programming.
+The data driven game used vectors, lists, iterators, object pools and various design patterns.
+Emphasis was placed on having no memory leaks.
 
-Extra Contribution:
-
-Problems with this project:
-
+Sample Code:
+https://github.com/iamsurya/2DGamingProjects/blob/master/asg6/monsterManager.cpp
+https://github.com/iamsurya/2DGamingProjects/blob/master/asg6/hud.cpp
